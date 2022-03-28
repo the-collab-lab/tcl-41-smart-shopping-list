@@ -5,7 +5,9 @@ Add yourself as a contributor to this project as a Markdown link that links your
     - [Dione Developer](https://github.com/DioneDeveloper) 💅
 
 ## Cohort Participants
+
 - [Cole Fortner](https://github.com/colefortner) 🐕
+- [Jessica Clay](https://github.com/jmc617) 🤸🏾‍♀️
 
 ## Mentors
 
