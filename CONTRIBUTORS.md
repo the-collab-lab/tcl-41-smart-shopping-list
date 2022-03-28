@@ -9,6 +9,7 @@ Add yourself as a contributor to this project as a Markdown link that links your
 - [Cole Fortner](https://github.com/colefortner) 🐕
 - [Jessica Clay](https://github.com/jmc617) 🤸🏾‍♀️
 - [Honz Williams](https://github.com/honzlavender) 🤠
+- [Estefani Baughman](https://github.com/HonduranCoder) 🐾
 
 ## Mentors
 
