@@ -49,9 +49,9 @@ export default function Firebase() {
       <header className="App-header">
         <button
           style={{
-            width: '100px',
-            height: '50px',
-            fontSize: '1em',
+            width: '200px',
+            height: '100px',
+            fontSize: '25px',
             cursor: 'pointer',
           }}
           //   onClick={handleSubmit}
