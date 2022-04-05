@@ -15,7 +15,7 @@ export default function Firebase() {
       try {
         const querySnapshot = await getDocs(collection(db, 'groceries'));
         const snapshotDocs = [];
-        //lopp[ through snapshot & push to array
+        //loop through snapshot & push to array
         querySnapshot.forEach((doc) => snapshotDocs.push(doc.data()));
         //set array into docs 
         setDocs(snapshotDocs);
