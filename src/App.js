@@ -1,16 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
 
 function List() {
   return (
     <>
       <h1>List of Items</h1>
-      <nav>
-        <Link to="/">List of Items</Link>
-        <Link to="/add-an-item">Add an Item</Link>
-      </nav>
     </>
   );
 }
@@ -19,11 +14,30 @@ function AddAnItem() {
   return (
     <>
       <h1>Add an Item</h1>
-      <nav>
-        <Link to="/">List of Items</Link>
-        <Link to="/add-an-item">Add an Item</Link>
-      </nav>
     </>
+  );
+}
+
+function NavLinks() {
+  return (
+    <nav style={{ position: 'fixed', bottom: 0 }}>
+      <NavLink
+        to="/"
+        style={({ isActive }) =>
+          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+        }
+      >
+        List of Items
+      </NavLink>
+      <NavLink
+        to="/add-an-item"
+        style={({ isActive }) =>
+          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+        }
+      >
+        Add an Item
+      </NavLink>
+    </nav>
   );
 }
 
@@ -35,6 +49,7 @@ function App() {
         <Route path="/" element={<List />} />
         <Route path="add-an-item" element={<AddAnItem />} />
       </Routes>
+      <NavLinks />
     </div>
   );
 }
