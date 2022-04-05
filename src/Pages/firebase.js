@@ -1,11 +1,12 @@
 import { db } from '../lib/firebase';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 export default function Firebase() {
-  //   const test = () => {
-  //     alert('it lives');
-  //   };
+  //test handler for button
+  // const test = () => {
+  //   alert('it lives');
+  // };
   const [item, setItem] = useState('');
   const [docs, setDocs] = useState([]);
 

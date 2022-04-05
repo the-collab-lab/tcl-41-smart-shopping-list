@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Firebase from './Pages/firebase';
+import Firebase from './pages/firebase';
 
 function App() {
   return (
