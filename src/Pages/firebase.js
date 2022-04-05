@@ -1,41 +1,40 @@
 import { db } from '../lib/firebase';
-import { collection, addDoc, onSnapshot } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 export default function Firebase() {
   //   const test = () => {
   //     alert('it lives');
   //   };
-
   const [item, setItem] = useState('');
   const [docs, setDocs] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'groceries'), (snapshot) => {
-      // Firestore requires that you loop through the snapshot to access the docs,
-      // instead of just setting the snapshot as the value of the state
-      const snapshotDocs = [];
-      snapshot.forEach((doc) => snapshotDocs.push(doc));
-      setDocs(snapshotDocs);
-    });
-    return () => {
-      // Used to remove the snapshot listener when the component is unmounted
-      unsubscribe();
+    const getGrocery = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'groceries'));
+        const snapshotDocs = [];
+
+        querySnapshot.forEach((doc) => snapshotDocs.push(doc.data()));
+        setDocs(snapshotDocs);
+      } catch (e) {
+        console.log(e.message);
+      }
     };
+    getGrocery();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const addItem = {
-      groceries: item,
+      item: 'item',
     };
     try {
-      const docRef = await addDoc(collection(db, 'groceries'), {
-        property: 'value',
-        // ...data
-        ...addItem,
-      });
+      const docRef = await addDoc(collection(db, 'groceries'), addItem);
+      console.log(docRef.id);
+
+      setDocs(addItem);
       // Success!
       console.log(docRef.id);
     } catch (e) {
@@ -54,7 +53,7 @@ export default function Firebase() {
             fontSize: '25px',
             cursor: 'pointer',
           }}
-          //   onClick={handleSubmit}
+          onClick={handleSubmit}
         >
           Firebase
         </button>
