@@ -3,11 +3,7 @@ import { collection, getDocs, addDoc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 export default function Firebase() {
-  //test handler for button
-  // const test = () => {
-  //   alert('it lives');
-  // };
-  const [item, setItem] = useState('');
+  // const [item, setItem] = useState('');
   const [docs, setDocs] = useState([]);
 
   useEffect(() => {
@@ -33,7 +29,6 @@ export default function Firebase() {
     };
     try {
       const docRef = await addDoc(collection(db, 'groceries'), addItem);
-      console.log(docRef.id);
 
       setDocs(addItem);
       // Success!
@@ -43,9 +38,10 @@ export default function Firebase() {
       console.error(e);
     }
   };
+  // console.log(docs);
 
   return (
-    <div className="App">
+    <div className="App" style={{ margin: 200 }}>
       <header className="App-header">
         <button
           style={{
@@ -58,7 +54,9 @@ export default function Firebase() {
         >
           Firebase
         </button>
-        <div>{'Firebase data'}</div>
+        {docs.map((doc) => (
+          <p>{doc.item}</p>
+        ))}
       </header>
     </div>
   );
