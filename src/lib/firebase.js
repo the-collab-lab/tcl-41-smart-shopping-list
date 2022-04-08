@@ -14,5 +14,4 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-//added 'app' inside getFirestore func
 export const db = getFirestore();
