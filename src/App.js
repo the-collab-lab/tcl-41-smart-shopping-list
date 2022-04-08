@@ -44,7 +44,7 @@ function NavLinks() {
 function App() {
   return (
     <div className="App">
-      <h1>Welcome to React Router!</h1>
+      <h1>Welcome to your Smart Shopping List!</h1>
       <Routes>
         <Route path="/" element={<List />} />
         <Route path="add-an-item" element={<AddAnItem />} />
