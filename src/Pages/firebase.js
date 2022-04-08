@@ -3,7 +3,6 @@ import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 export default function Firebase() {
-  // const [item, setItem] = useState('');
   const [docs, setDocs] = useState([]);
 
   useEffect(() => {
