@@ -1,5 +1,5 @@
 import { db } from '../lib/firebase';
-import { collection, getDocs, addDoc, onSnapshot } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 export default function Firebase() {
@@ -13,7 +13,7 @@ export default function Firebase() {
         const snapshotDocs = [];
         //loop through snapshot & push to array
         querySnapshot.forEach((doc) => snapshotDocs.push(doc.data()));
-        //set array into docs 
+        //set array into docs
         setDocs(snapshotDocs);
       } catch (e) {
         console.log(e.message);
@@ -56,7 +56,7 @@ export default function Firebase() {
           Firebase
         </button>
         {docs.map((doc) => (
-          <p>{doc.item}</p>
+          <p key={doc.id}>{doc.item}</p>
         ))}
       </header>
     </div>
