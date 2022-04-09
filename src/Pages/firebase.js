@@ -29,15 +29,15 @@ export default function Firebase() {
     //when handleSubmit is triggered console shows this error:
     //Function addDoc() called with invalid data. Data must be an object, but it was: an array -
     // when addItem was a loose object page would not render correctly - not sure how to fix or if we need to at the moment
-    const addItem = [
-      {
-        item: 'new item',
-      },
-    ];
+    const addItem = {
+      item: 'mouse food9',
+      id: '1',
+    };
+
     try {
       const docRef = await addDoc(collection(db, 'groceries'), addItem);
 
-      setDocs(addItem);
+      setDocs((prevState) => [...prevState, addItem]);
       // Success!
       console.log(docRef.id);
     } catch (e) {
@@ -61,7 +61,9 @@ export default function Firebase() {
           Firebase
         </button>
         {docs.map((doc) => (
-          <p key={doc.id}>{doc.item}</p>
+          <p key={doc.id}>
+            {doc.item} + {doc.id}
+          </p>
         ))}
       </header>
     </div>
