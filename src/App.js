@@ -1,5 +1,46 @@
+import React from 'react';
+import { Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
 import Firebase from './Pages/firebase';
+
+function List() {
+  return (
+    <>
+      <h1>List of Items</h1>
+    </>
+  );
+}
+
+function AddAnItem() {
+  return (
+    <>
+      <h1>Add an Item</h1>
+    </>
+  );
+}
+
+function NavLinks() {
+  return (
+    <nav style={{ position: 'fixed', bottom: 0 }}>
+      <NavLink
+        to="/"
+        style={({ isActive }) =>
+          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+        }
+      >
+        List of Items
+      </NavLink>
+      <NavLink
+        to="/add-an-item"
+        style={({ isActive }) =>
+          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+        }
+      >
+        Add an Item
+      </NavLink>
+    </nav>
+  );
+}
 
 function App() {
   return (
@@ -7,6 +48,12 @@ function App() {
       <header className="App-header">
         <Firebase />
       </header>
+      <h1>Welcome to your Smart Shopping List!</h1>
+      <Routes>
+        <Route path="/" element={<List />} />
+        <Route path="add-an-item" element={<AddAnItem />} />
+      </Routes>
+      <NavLinks />
     </div>
   );
 }
