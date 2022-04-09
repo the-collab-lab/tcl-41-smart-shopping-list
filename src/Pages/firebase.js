@@ -61,9 +61,7 @@ export default function Firebase() {
           Firebase
         </button>
         {docs.map((doc) => (
-          <p key={doc.id}>
-            {doc.item} + {doc.id}
-          </p>
+          <p key={doc.id}>{doc.item}</p>
         ))}
       </header>
     </div>
