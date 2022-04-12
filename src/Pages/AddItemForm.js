@@ -21,16 +21,19 @@ async function addToDb(item_name, purchase_interval, user_token) {
 
 class AddItemForm extends React.Component {
   constructor() {
+    //super is a method from React
     super();
     this.state = {
       item_name: '',
-      purchase_interval: '7',
+      purchase_interval: 7,
       user_token: '1234',
     };
+    //.bind(this) -The bind() is an inbuilt method in React that is used to pass the data as an argument to the function of a class based component
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  //input
   handleNameChange = (e) => {
     this.setState({ item_name: e.target.value });
   };
@@ -66,7 +69,7 @@ class AddItemForm extends React.Component {
           <label htmlFor="soon">
             Soon
             <input
-              checked={this.state.purchase_interval === '7'}
+              checked={this.state.purchase_interval === 7}
               onChange={this.handleRadioChange}
               type="radio"
               id="soon"
@@ -77,7 +80,7 @@ class AddItemForm extends React.Component {
           <label htmlFor="kind_of_soon">
             Kind of Soon
             <input
-              checked={this.state.purchase_interval === '14'}
+              checked={this.state.purchase_interval === 14}
               onChange={this.handleRadioChange}
               type="radio"
               id="kind_of_soon"
@@ -88,7 +91,7 @@ class AddItemForm extends React.Component {
           <label htmlFor="not_soon">
             Not Soon
             <input
-              checked={this.state.purchase_interval === '30'}
+              checked={this.state.purchase_interval === 30}
               onChange={this.handleRadioChange}
               type="radio"
               id="not_soon"

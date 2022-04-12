@@ -1,17 +1,9 @@
 import React from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
-import Firebase from './Pages/firebase';
+import Firebase from './pages/firebase';
 // import form until file changes merged
-import AddItemForm from './Pages/AddItemForm';
-
-function List() {
-  return (
-    <>
-      <h1>List of Items</h1>
-    </>
-  );
-}
+import AddItemForm from './pages/AddItemForm';
 
 function AddAnItem() {
   return (
@@ -19,6 +11,14 @@ function AddAnItem() {
       <h1>Add an Item</h1>
       {/* form here until file changes are merged */}
       <AddItemForm />
+    </>
+  );
+}
+
+function List() {
+  return (
+    <>
+      <Firebase />
     </>
   );
 }
@@ -49,9 +49,6 @@ function NavLinks() {
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <Firebase />
-      </header>
       <h1>Welcome to your Smart Shopping List!</h1>
       <Routes>
         <Route path="/" element={<List />} />
