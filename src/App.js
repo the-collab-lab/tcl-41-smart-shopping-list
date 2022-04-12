@@ -2,6 +2,8 @@ import React from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
 import Firebase from './Pages/firebase';
+// import form until file changes merged
+import AddItemForm from './Pages/AddItemForm';
 
 function List() {
   return (
@@ -15,6 +17,8 @@ function AddAnItem() {
   return (
     <>
       <h1>Add an Item</h1>
+      {/* form here until file changes are merged */}
+      <AddItemForm />
     </>
   );
 }
