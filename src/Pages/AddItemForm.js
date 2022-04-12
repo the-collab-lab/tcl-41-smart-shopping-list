@@ -69,7 +69,7 @@ class AddItemForm extends React.Component {
           <label htmlFor="soon">
             Soon
             <input
-              checked={this.state.purchase_interval === 7}
+              checked={this.state.purchase_interval === String(7)}
               onChange={this.handleRadioChange}
               type="radio"
               id="soon"
@@ -80,7 +80,7 @@ class AddItemForm extends React.Component {
           <label htmlFor="kind_of_soon">
             Kind of Soon
             <input
-              checked={this.state.purchase_interval === 14}
+              checked={this.state.purchase_interval === String(14)}
               onChange={this.handleRadioChange}
               type="radio"
               id="kind_of_soon"
@@ -91,7 +91,7 @@ class AddItemForm extends React.Component {
           <label htmlFor="not_soon">
             Not Soon
             <input
-              checked={this.state.purchase_interval === 30}
+              checked={this.state.purchase_interval === String(30)}
               onChange={this.handleRadioChange}
               type="radio"
               id="not_soon"

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
-import Firebase from './pages/firebase';
+import Firebase from './Pages/firebase';
 // import form until file changes merged
-import AddItemForm from './pages/AddItemForm';
+import AddItemForm from './Pages/AddItemForm';
 
 function AddAnItem() {
   return (
