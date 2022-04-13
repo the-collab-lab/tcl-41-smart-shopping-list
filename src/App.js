@@ -15,6 +15,7 @@ function App() {
     const json = localStorage.getItem('dummy');
     const loadedToken = JSON.parse(json);
     if (loadedToken) {
+      navigate('/item-list');
       setToken(loadedToken);
     }
   }, []);
@@ -26,7 +27,6 @@ function App() {
 
   const onClick = () => {
     localStorage.setItem('dummy', JSON.stringify({ token: getToken() }));
-    console.log(localStorage.dummy);
 
     setToken(true);
     navigate('/item-list');
@@ -38,7 +38,6 @@ function App() {
     setToken(false);
     navigate('/');
   };
-  console.log(token);
 
   return (
     <div className="App">
@@ -60,7 +59,6 @@ function App() {
         )}
       </div>
       <Routes>
-        {/* <Route path="/" element={<App />} /> */}
         <Route path="item-list" element={<ItemList />} />
         <Route path="add-item" element={<AddItem />} />
       </Routes>
