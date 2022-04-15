@@ -1,60 +1,69 @@
 import React from 'react';
-import { Routes, Route, NavLink } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
-import Firebase from './Pages/firebase';
-// import form until file changes merged
-import AddItemForm from './Pages/AddItemForm';
-
-function AddAnItem() {
-  return (
-    <>
-      <h1>Add an Item</h1>
-      {/* form here until file changes are merged */}
-      <AddItemForm />
-    </>
-  );
-}
-
-function List() {
-  return (
-    <>
-      <Firebase />
-    </>
-  );
-}
-
-function NavLinks() {
-  return (
-    <nav style={{ position: 'fixed', bottom: 0 }}>
-      <NavLink
-        to="/"
-        style={({ isActive }) =>
-          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
-        }
-      >
-        List of Items
-      </NavLink>
-      <NavLink
-        to="/add-an-item"
-        style={({ isActive }) =>
-          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
-        }
-      >
-        Add an Item
-      </NavLink>
-    </nav>
-  );
-}
+import { getToken } from '@the-collab-lab/shopping-list-utils';
+import { useState, useEffect } from 'react';
+import AddItem from './Pages/AddItem';
+import NavLinks from './Navigation/NavLinks';
+import ItemList from './Pages/ItemList';
 
 function App() {
+  const [token, setToken] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const json = localStorage.getItem('dummy');
+    const loadedToken = JSON.parse(json);
+    if (loadedToken) {
+      navigate('/item-list');
+      setToken(loadedToken);
+    }
+  }, []);
+
+  useEffect(() => {
+    const json = JSON.stringify(token);
+    localStorage.setItem('dummy', json);
+  }, [token]);
+
+  const onClick = () => {
+    localStorage.setItem('dummy', JSON.stringify({ token: getToken() }));
+
+    setToken(true);
+    navigate('/item-list');
+  };
+
+  const deleteStorage = () => {
+    localStorage.removeItem('dummy');
+
+    setToken(false);
+    navigate('/');
+  };
+
   return (
     <div className="App">
-      <h1>Welcome to your Smart Shopping List!</h1>
+
+      <header className="App-header"></header>
+      <div>
+        {token === true ? (
+          <>
+            <button onClick={deleteStorage}>logout</button>
+            <NavLinks />
+          </>
+        ) : (
+          <>
+            <header className="header">
+              Welcome to your Smart Shopping List!
+            </header>
+
+            <button onClick={onClick}>create a new list</button>
+          </>
+        )}
+      </div>
+
       <Routes>
-        <Route path="/" element={<List />} />
-        <Route path="add-an-item" element={<AddAnItem />} />
+        <Route path="item-list" element={<ItemList />} />
+        <Route path="add-item" element={<AddItem />} />
       </Routes>
-      <NavLinks />
     </div>
   );
 }
