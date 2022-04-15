@@ -20,13 +20,13 @@ async function addToDb(item_name, purchase_interval, user_token) {
 }
 
 class AddItemForm extends React.Component {
-  constructor() {
-    //super is a method from React
+  constructor(props) {
+    //super is a method from React (create a class from a parent class)
     super();
     this.state = {
       item_name: '',
       purchase_interval: 7,
-      user_token: '1234',
+      user_token: props.token.token,
     };
     //.bind(this) -The bind() is an inbuilt method in React that is used to pass the data as an argument to the function of a class based component
     this.handleNameChange = this.handleNameChange.bind(this);

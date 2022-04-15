@@ -1,11 +1,10 @@
-import React from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import { getToken } from '@the-collab-lab/shopping-list-utils';
 import { useState, useEffect } from 'react';
-import AddItem from './Pages/AddItem';
-import NavLinks from './Navigation/NavLinks';
-import ItemList from './Pages/ItemList';
+import AddItem from './components/AddItem/AddItem';
+import NavLinks from './components/Navigation/NavLinks';
+import ItemList from './pages/ItemList';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -28,7 +27,7 @@ function App() {
   const onClick = () => {
     localStorage.setItem('dummy', JSON.stringify({ token: getToken() }));
 
-    setToken(true);
+    setToken(JSON.parse(localStorage.dummy));
     navigate('/item-list');
   };
 
@@ -41,10 +40,9 @@ function App() {
 
   return (
     <div className="App">
-
       <header className="App-header"></header>
       <div>
-        {token === true ? (
+        {token ? (
           <>
             <button onClick={deleteStorage}>logout</button>
             <NavLinks />
@@ -61,8 +59,8 @@ function App() {
       </div>
 
       <Routes>
-        <Route path="item-list" element={<ItemList />} />
-        <Route path="add-item" element={<AddItem />} />
+        <Route path="item-list" element={<ItemList token={token} />} />
+        <Route path="add-item" element={<AddItem token={token} />} />
       </Routes>
     </div>
   );
