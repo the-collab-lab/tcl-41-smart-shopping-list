@@ -31,7 +31,6 @@ const AddItemForm = (props) => {
     alert('Item was submitted: ' + itemName);
   };
   return (
-    //<form ...  remove this. from everything
     <form onSubmit={handleSubmit}>
       <label>
         Item Name:
