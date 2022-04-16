@@ -8,7 +8,7 @@ function ItemList({ token }) {
   useEffect(() => {
     const tokenQuery = query(
       collection(db, 'groceries'),
-      where('user_token', '==', `${token.token}`),
+      where('user_token', '==', `${token}`),
     );
     const queryToken = async (e) => {
       try {
@@ -28,13 +28,9 @@ function ItemList({ token }) {
 
   return (
     <>
-      <h1>List of Items</h1>
-      <p>Item List with Token</p>
+      <h1>Your Items</h1>
       {docs.map((doc) => (
-        <p key={doc.id}>
-          {doc.item_name}
-          {/* {doc.user_token} */}
-        </p>
+        <p key={doc.id}>{doc.item_name}</p>
       ))}
     </>
   );

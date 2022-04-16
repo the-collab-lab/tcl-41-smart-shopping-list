@@ -11,7 +11,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const json = localStorage.getItem('dummy');
+    const json = localStorage.getItem('shoppingListToken');
     const loadedToken = JSON.parse(json);
     if (loadedToken) {
       navigate('/item-list');
@@ -19,20 +19,15 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    const json = JSON.stringify(token);
-    localStorage.setItem('dummy', json);
-  }, [token]);
-
   const onClick = () => {
-    localStorage.setItem('dummy', JSON.stringify({ token: getToken() }));
+    localStorage.setItem('shoppingListToken', JSON.stringify(getToken()));
 
-    setToken(JSON.parse(localStorage.dummy));
+    setToken(JSON.parse(localStorage.shoppingListToken));
     navigate('/item-list');
   };
 
   const deleteStorage = () => {
-    localStorage.removeItem('dummy');
+    localStorage.removeItem('shoppingListToken');
 
     setToken(false);
     navigate('/');
