@@ -11,9 +11,10 @@ async function addToDb(item_name, purchase_interval, user_token) {
       user_token: user_token,
       last_purchased_date: null,
     });
-
+    alert('Item was submitted: ' + item_name);
     console.log('Document written with ID: ', docRef.id);
   } catch (e) {
+    alert('Error adding document, check console.');
     console.error('Error adding document: ', e);
   }
 }
@@ -28,7 +29,6 @@ const AddItemForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addToDb(itemName, parseInt(purchaseInterval), props.token);
-    alert('Item was submitted: ' + itemName);
   };
   return (
     <form onSubmit={handleSubmit}>
