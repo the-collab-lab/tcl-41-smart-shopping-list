@@ -49,31 +49,12 @@ const AddItemForm = (props) => {
 
   const handleItemNameChange = (e) => setItemName(e.target.value);
   const handleRadioChange = (e) => setPurchaseInterval(e.target.value);
-  function ifExisitInDB(str, arr) {
-    //string (e.target.value) & array (db array)
-    if (arr.includes(str)) {
-      return false;
-    }
-    return true;
-  }
 
-  //started check on handleSubmit
-  //if db.array.includes
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const shoppingItem = e.target.value;
-    const noPuncShoppingItem = removePunctuation(shoppingItem);
-
-    // if (queryToken() === 0) {
-    //   console.log('item does not exists');
-    // } else {
-    //   console.log('item exist');
-    // }
-
-    addToDb(itemName, parseInt(purchaseInterval), props.token);
-  };
-
-  console.log(itemName);
+  //Do we need to add state to hold the array to access items
+  //Map inside this file to get the array
+  const itemArray = docs.map((doc) => {
+    return removePunctuation(doc.data.name);
+  });
   //puncuation and capital check with regex
   function removePunctuation(stringData) {
     return stringData
@@ -81,6 +62,30 @@ const AddItemForm = (props) => {
       .replace(/\s+/g, ' ')
       .toLowerCase();
   }
+
+  // function ifExisitInDB(str, arr) {
+  //   //string (e.target.value) & array (db array)
+  //   if (itemArray.includes(str)) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const shoppingItem = itemName;
+    const noPuncShoppingItem = removePunctuation(shoppingItem);
+    //Honz likes to party with functions
+    if (!noPuncShoppingItem) {
+      alert('must add item');
+      console.log(collection((db, 'groceries')));
+    } else if (itemArray.includes(noPuncShoppingItem)) {
+      alert('duplicate');
+    } else {
+      addToDb(noPuncShoppingItem, parseInt(purchaseInterval), props.token);
+    }
+    console.log(itemName);
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -128,5 +133,4 @@ const AddItemForm = (props) => {
     </form>
   );
 };
-
 export default AddItemForm;
