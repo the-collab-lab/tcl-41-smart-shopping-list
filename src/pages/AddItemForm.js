@@ -1,7 +1,8 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { db } from '../lib/firebase';
 import { addDoc, collection } from 'firebase/firestore';
+import { getDocs, query, where } from 'firebase/firestore';
 
 async function addToDb(item_name, purchase_interval, user_token) {
   try {
@@ -18,18 +19,56 @@ async function addToDb(item_name, purchase_interval, user_token) {
     console.error('Error adding document: ', e);
   }
 }
-
 const AddItemForm = (props) => {
   const [itemName, setItemName] = useState('');
   const [purchaseInterval, setPurchaseInterval] = useState('7');
+  const [docs, setDocs] = useState([]);
+
+  // useEffect(() => {
+  const tokenQuery = query(
+    collection(db, 'groceries'),
+    where('user_token', '==', `${props.token}`),
+    where('item_name', '==', `${itemName}`),
+  );
+  const queryToken = async (e) => {
+    try {
+      const querySnapshot = await getDocs(tokenQuery);
+      const snapshotDocs = [];
+      querySnapshot.forEach((doc) =>
+        snapshotDocs.push({ ...doc.data(), id: doc.id }),
+      );
+      // setDocs(snapshotDocs);
+      console.log(snapshotDocs);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+  queryToken();
+  // }, [itemName, props.token]);
 
   const handleItemNameChange = (e) => setItemName(e.target.value);
   const handleRadioChange = (e) => setPurchaseInterval(e.target.value);
-
+  //started check on handleSubmit
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (queryToken() === 0) {
+      console.log('item does not exists');
+    } else {
+      console.log('item exist');
+    }
+
     addToDb(itemName, parseInt(purchaseInterval), props.token);
   };
+
+  console.log(itemName);
+  //puncuation and capital check with regex
+  const strData = itemName
+    .replace(/[^\w\s]|_/g, '')
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+  console.log(strData);
+
   return (
     <form onSubmit={handleSubmit}>
       <label>

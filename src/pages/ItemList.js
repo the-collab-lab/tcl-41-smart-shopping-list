@@ -9,6 +9,7 @@ function ItemList({ token }) {
     const tokenQuery = query(
       collection(db, 'groceries'),
       where('user_token', '==', `${token}`),
+      //where('item_name', '==', `${'Ice cream'.toLowerCase()}`),
     );
     const queryToken = async (e) => {
       try {
