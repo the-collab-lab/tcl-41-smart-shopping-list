@@ -24,50 +24,63 @@ const AddItemForm = (props) => {
   const [purchaseInterval, setPurchaseInterval] = useState('7');
   const [docs, setDocs] = useState([]);
 
-  // useEffect(() => {
-  const tokenQuery = query(
-    collection(db, 'groceries'),
-    where('user_token', '==', `${props.token}`),
-    where('item_name', '==', `${itemName}`),
-  );
-  const queryToken = async (e) => {
-    try {
-      const querySnapshot = await getDocs(tokenQuery);
-      const snapshotDocs = [];
-      querySnapshot.forEach((doc) =>
-        snapshotDocs.push({ ...doc.data(), id: doc.id }),
-      );
-      // setDocs(snapshotDocs);
-      console.log(snapshotDocs);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-  queryToken();
-  // }, [itemName, props.token]);
+  //on page load, check the db
+  useEffect(() => {
+    const tokenQuery = query(
+      collection(db, 'groceries'),
+      where('user_token', '==', `${props.token}`),
+      where('item_name', '==', `${itemName}`),
+    );
+    const queryToken = async (e) => {
+      try {
+        const querySnapshot = await getDocs(tokenQuery);
+        const snapshotDocs = [];
+        querySnapshot.forEach((doc) =>
+          snapshotDocs.push({ ...doc.data(), id: doc.id }),
+        );
+        // setDocs(snapshotDocs);
+        console.log(snapshotDocs);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    queryToken();
+  }, [itemName, props.token]);
 
   const handleItemNameChange = (e) => setItemName(e.target.value);
   const handleRadioChange = (e) => setPurchaseInterval(e.target.value);
+  function ifExisitInDB(str, arr) {
+    //string (e.target.value) & array (db array)
+    if (arr.includes(str)) {
+      return false;
+    }
+    return true;
+  }
+
   //started check on handleSubmit
+  //if db.array.includes
   const handleSubmit = (e) => {
     e.preventDefault();
+    const shoppingItem = e.target.value;
+    const noPuncShoppingItem = removePunctuation(shoppingItem);
 
-    if (queryToken() === 0) {
-      console.log('item does not exists');
-    } else {
-      console.log('item exist');
-    }
+    // if (queryToken() === 0) {
+    //   console.log('item does not exists');
+    // } else {
+    //   console.log('item exist');
+    // }
 
     addToDb(itemName, parseInt(purchaseInterval), props.token);
   };
 
   console.log(itemName);
   //puncuation and capital check with regex
-  const strData = itemName
-    .replace(/[^\w\s]|_/g, '')
-    .replace(/\s+/g, ' ')
-    .toLowerCase();
-  console.log(strData);
+  function removePunctuation(stringData) {
+    return stringData
+      .replace(/[^\w\s]|_/g, '')
+      .replace(/\s+/g, ' ')
+      .toLowerCase();
+  }
 
   return (
     <form onSubmit={handleSubmit}>
