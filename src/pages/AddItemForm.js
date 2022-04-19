@@ -1,7 +1,8 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { db } from '../lib/firebase';
 import { addDoc, collection } from 'firebase/firestore';
+import { getDocs, query, where } from 'firebase/firestore';
 
 async function addToDb(item_name, purchase_interval, user_token) {
   try {
@@ -18,22 +19,42 @@ async function addToDb(item_name, purchase_interval, user_token) {
     console.error('Error adding document: ', e);
   }
 }
-const AddItemForm = ({ docs }) => {
+const AddItemForm = (props) => {
   const [itemName, setItemName] = useState('');
   const [purchaseInterval, setPurchaseInterval] = useState('7');
-  const [message, setMessage] = useState('');
+  const [docs, setDocs] = useState([]);
+
+  //on page load, check the db
+  useEffect(() => {
+    const tokenQuery = query(
+      collection(db, 'groceries'),
+      where('user_token', '==', `${props.token}`),
+    );
+    const queryToken = async (e) => {
+      try {
+        const querySnapshot = await getDocs(tokenQuery);
+        const snapshotDocs = [];
+        querySnapshot.forEach((doc) =>
+          snapshotDocs.push({ ...doc.data(), id: doc.id }),
+        );
+        setDocs(snapshotDocs);
+        console.log(snapshotDocs);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    queryToken();
+  }, [itemName, props.token]);
 
   const handleItemNameChange = (e) => setItemName(e.target.value);
   const handleRadioChange = (e) => setPurchaseInterval(e.target.value);
 
-  const addItem = {
-    item_name: 'itemName',
-    last_purchased_date: 'null',
-    purchase_interval: 14,
-    user_token: 'one two three',
-  };
+  const itemArray = docs.map((doc) => {
+    return removePunctuation(doc.item_name);
+  });
 
-  //puncuation and capital check with regex
+  console.log('ITEM ARRAY', itemArray);
+  // punctuation and capital check with regex
   function removePunctuation(stringData) {
     return stringData
       .replace(/[^\w\s]|_/g, '')
@@ -41,28 +62,20 @@ const AddItemForm = ({ docs }) => {
       .toLowerCase();
   }
 
-  //Map inside this file to get the array
-  const itemArray = docs.map((doc) => {
-    return removePunctuation(doc.data.name);
-  });
-
-  let newName = removePunctuation(itemName);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const shoppingItem = itemName;
     const noPuncShoppingItem = removePunctuation(shoppingItem);
-    try {
-      if (itemArray.includes(newName)) {
-        throw new Error(`${itemName} Exists`);
-      }
-      await addDoc(collection(db, 'groceries'), addItem);
-      setMessage(`${itemName} has been added`);
-      setItemName('');
-    } catch (e) {
-      setMessage(e.message);
-      setItemName('');
+    // Check for duplicates and add unique items to list
+    if (!noPuncShoppingItem) {
+      alert('must add item');
+      console.log(collection((db, 'groceries')));
+    } else if (itemArray.includes(noPuncShoppingItem)) {
+      alert('duplicate');
+    } else {
+      addToDb(itemName, parseInt(purchaseInterval), props.token);
     }
+    console.log(itemName);
   };
 
   return (
