@@ -29,7 +29,6 @@ const AddItemForm = (props) => {
     const tokenQuery = query(
       collection(db, 'groceries'),
       where('user_token', '==', `${props.token}`),
-      where('item_name', '==', `${itemName}`),
     );
     const queryToken = async (e) => {
       try {
@@ -38,7 +37,7 @@ const AddItemForm = (props) => {
         querySnapshot.forEach((doc) =>
           snapshotDocs.push({ ...doc.data(), id: doc.id }),
         );
-        // setDocs(snapshotDocs);
+        setDocs(snapshotDocs);
         console.log(snapshotDocs);
       } catch (e) {
         console.log(e.message);
@@ -50,12 +49,12 @@ const AddItemForm = (props) => {
   const handleItemNameChange = (e) => setItemName(e.target.value);
   const handleRadioChange = (e) => setPurchaseInterval(e.target.value);
 
-  //Do we need to add state to hold the array to access items
-  //Map inside this file to get the array
   const itemArray = docs.map((doc) => {
-    return removePunctuation(doc.data.name);
+    return removePunctuation(doc.item_name);
   });
-  //puncuation and capital check with regex
+
+  console.log('ITEM ARRAY', itemArray);
+  // punctuation and capital check with regex
   function removePunctuation(stringData) {
     return stringData
       .replace(/[^\w\s]|_/g, '')
@@ -63,26 +62,18 @@ const AddItemForm = (props) => {
       .toLowerCase();
   }
 
-  // function ifExisitInDB(str, arr) {
-  //   //string (e.target.value) & array (db array)
-  //   if (itemArray.includes(str)) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const shoppingItem = itemName;
     const noPuncShoppingItem = removePunctuation(shoppingItem);
-    //Honz likes to party with functions
+    // Check for duplicates and add unique items to list
     if (!noPuncShoppingItem) {
       alert('must add item');
       console.log(collection((db, 'groceries')));
     } else if (itemArray.includes(noPuncShoppingItem)) {
       alert('duplicate');
     } else {
-      addToDb(noPuncShoppingItem, parseInt(purchaseInterval), props.token);
+      addToDb(itemName, parseInt(purchaseInterval), props.token);
     }
     console.log(itemName);
   };
