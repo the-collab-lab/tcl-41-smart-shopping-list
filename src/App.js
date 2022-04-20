@@ -111,8 +111,14 @@ function App() {
       </div>
 
       <Routes>
-        <Route path="item-list" element={<ItemList token={token} />} />
-        <Route path="add-item" element={<AddItem token={token} />} />
+        <Route
+          path="item-list"
+          element={<ItemList token={localStorage.shoppingListToken} />}
+        />
+        <Route
+          path="add-item"
+          element={<AddItem token={localStorage.shoppingListToken} />}
+        />
       </Routes>
     </div>
   );

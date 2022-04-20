@@ -19,7 +19,7 @@ async function addToDb(item_name, purchase_interval, user_token) {
   }
 }
 
-const AddItemForm = (props) => {
+const AddItemForm = ({ token }) => {
   const [itemName, setItemName] = useState('');
   const [purchaseInterval, setPurchaseInterval] = useState('7');
 
@@ -43,9 +43,13 @@ const AddItemForm = (props) => {
     //   alert('duplicate')
     // }
     else {
-      addToDb(newItem, parseInt(purchaseInterval), props.token);
+      addToDb(
+        newItem,
+        parseInt(purchaseInterval),
+        localStorage.shoppingListToken,
+      );
     }
-
+    //breve meek clone
     // addToDb(itemName, parseInt(purchaseInterval), props.token);
     console.log(collection(db, 'groceries'));
   };

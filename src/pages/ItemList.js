@@ -5,13 +5,12 @@ import { useLocation } from 'react-router-dom';
 
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
-  const { state } = useLocation();
-  console.log(state.token);
+  // const { state, submittedToken } = useLocation();
 
   useEffect(() => {
     const tokenQuery = query(
       collection(db, 'groceries'),
-      where('user_token', '==', `${state.token}`),
+      where('user_token', '==', `${localStorage.shoppingListToken}`),
     );
     const queryToken = async (e) => {
       try {
@@ -28,14 +27,17 @@ function ItemList({ token }) {
     };
     queryToken();
     //console.log(token)
-  }, [state.token]);
+  }, [token]);
 
   return (
     <>
       <h1>Your Items</h1>
-      <h2>your token: {state.token}</h2>
+      <h2>your token: {token}</h2>
       {docs.map((doc) => (
-        <p key={doc.id}>{doc.item_name}</p>
+        <p key={doc.id}>
+          {doc.item_name}
+          {doc.user_token}
+        </p>
       ))}
     </>
   );
