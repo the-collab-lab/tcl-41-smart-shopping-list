@@ -5,13 +5,10 @@ import { useState, useEffect } from 'react';
 import AddItem from './components/AddItem/AddItem';
 import NavLinks from './components/Navigation/NavLinks';
 import ItemList from './pages/ItemList';
-
-//new
 import { db } from './lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 function App() {
-  //JESS: separate token presence state and token token text state
   const [tokenPresent, setTokenPresent] = useState(null);
   const [token, setToken] = useState('');
   const navigate = useNavigate();
@@ -25,22 +22,15 @@ function App() {
     if (loadedToken) {
       setToken(loadedToken);
       setTokenPresent(true);
-      console.log(token);
     }
-    //JESS: Add token changes as a dependecy so it knows to update state
   }, [token]);
 
-  //create new token
   const onClick = () => {
     localStorage.setItem('shoppingListToken', JSON.stringify(getToken()));
-
     setToken(JSON.parse(localStorage.shoppingListToken));
-    console.log(JSON.parse(localStorage.shoppingListToken));
-    setToken(JSON.parse(localStorage.shoppingListToken));
-    console.log(token);
     navigate('/item-list');
   };
-  //delete token
+
   const deleteStorage = () => {
     localStorage.removeItem('shoppingListToken');
     setTokenPresent(false);
@@ -60,22 +50,18 @@ function App() {
         querySnapshot.forEach((doc) =>
           snapshotDocs.push({ ...doc.data(), id: doc.id }),
         );
-        // setDocs(snapshotDocs);
         if (!snapshotDocs.length) {
           alert('token does not exist');
         } else {
           const json = JSON.stringify(submittedToken);
           localStorage.setItem('shoppingListToken', json);
-          // console.log(localStorage.shoppingListToken);
           setToken(true);
           navigate('/item-list', {
             state: { token: submittedToken },
           });
         }
-
-        //console.log(snapshotDocs);
       } catch (e) {
-        console.log(e.message);
+        console.error(e.message);
       }
     };
     queryToken();
@@ -98,13 +84,12 @@ function App() {
 
             <button onClick={onClick}>create a new list</button>
 
-            {/* add input and button here to take existing token */}
-            <header>or look for a list</header>
+            <header>or join an existing list</header>
             <label>
               token
               <input
                 type="text"
-                // value={itemName}
+                value={submittedToken}
                 onChange={handleItemNameChange}
               />
             </label>
