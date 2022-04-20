@@ -6,19 +6,27 @@ import AddItem from './components/AddItem/AddItem';
 import NavLinks from './components/Navigation/NavLinks';
 import ItemList from './pages/ItemList';
 
+//new
+import { db } from './lib/firebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+
 function App() {
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
+  const [submittedToken, setSubmittedToken] = useState('');
+
+  const handleItemNameChange = (e) => setSubmittedToken(e.target.value);
 
   useEffect(() => {
     const json = localStorage.getItem('shoppingListToken');
     const loadedToken = JSON.parse(json);
     if (loadedToken) {
-      navigate('/item-list');
+      // navigate('/item-list');
       setToken(loadedToken);
     }
   }, []);
 
+  //create new
   const onClick = () => {
     localStorage.setItem('shoppingListToken', JSON.stringify(getToken()));
 
@@ -31,6 +39,41 @@ function App() {
 
     setToken(false);
     navigate('/');
+  };
+
+  const handleSubmit = () => {
+    // const submittedToken = 'hesse area tawny'
+
+    const tokenQuery = query(
+      collection(db, 'groceries'),
+      where('user_token', '==', `${submittedToken}`),
+    );
+    const queryToken = async (e) => {
+      try {
+        const querySnapshot = await getDocs(tokenQuery);
+        const snapshotDocs = [];
+        querySnapshot.forEach((doc) =>
+          snapshotDocs.push({ ...doc.data(), id: doc.id }),
+        );
+        // setDocs(snapshotDocs);
+        if (!snapshotDocs.length) {
+          alert('token does not exist');
+        } else {
+          const json = JSON.stringify(submittedToken);
+          localStorage.setItem('shoppingListToken', json);
+          // console.log(localStorage.shoppingListToken);
+          setToken(true);
+          navigate('/item-list', {
+            state: { token: submittedToken },
+          });
+        }
+
+        //console.log(snapshotDocs);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    queryToken();
   };
 
   return (
@@ -49,6 +92,20 @@ function App() {
             </header>
 
             <button onClick={onClick}>create a new list</button>
+
+            {/* add input and button here to take existing token */}
+            <header>or look for a list</header>
+            <label>
+              token
+              <input
+                type="text"
+                // value={itemName}
+                onChange={handleItemNameChange}
+              />
+            </label>
+            <button type="submit" onClick={handleSubmit}>
+              join list
+            </button>
           </>
         )}
       </div>

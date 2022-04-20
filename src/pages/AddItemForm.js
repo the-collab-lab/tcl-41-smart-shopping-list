@@ -28,8 +28,28 @@ const AddItemForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addToDb(itemName, parseInt(purchaseInterval), props.token);
+
+    const newItem = itemName
+      .replace(/[^\w\s]|_/g, '')
+      .replace(/\s+/g, ' ')
+      .toLowerCase();
+    console.log(newItem);
+
+    if (!newItem) {
+      // return false;
+      alert('must add item');
+    }
+    // else if (db.includes(newItem)){
+    //   alert('duplicate')
+    // }
+    else {
+      addToDb(newItem, parseInt(purchaseInterval), props.token);
+    }
+
+    // addToDb(itemName, parseInt(purchaseInterval), props.token);
+    console.log(collection(db, 'groceries'));
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
