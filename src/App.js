@@ -11,7 +11,9 @@ import { db } from './lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 function App() {
-  const [token, setToken] = useState(null);
+  //JESS: separate token presence state and token token text state
+  const [tokenPresent, setTokenPresent] = useState(null);
+  const [token, setToken] = useState('');
   const navigate = useNavigate();
   const [submittedToken, setSubmittedToken] = useState('');
 
@@ -21,29 +23,32 @@ function App() {
     const json = localStorage.getItem('shoppingListToken');
     const loadedToken = JSON.parse(json);
     if (loadedToken) {
-      // navigate('/item-list');
       setToken(loadedToken);
+      setTokenPresent(true);
+      console.log(token);
     }
-  }, []);
+    //JESS: Add token changes as a dependecy so it knows to update state
+  }, [token]);
 
-  //create new
+  //create new token
   const onClick = () => {
     localStorage.setItem('shoppingListToken', JSON.stringify(getToken()));
 
     setToken(JSON.parse(localStorage.shoppingListToken));
+    console.log(JSON.parse(localStorage.shoppingListToken));
+    setToken(JSON.parse(localStorage.shoppingListToken));
+    console.log(token);
     navigate('/item-list');
   };
-
+  //delete token
   const deleteStorage = () => {
     localStorage.removeItem('shoppingListToken');
-
-    setToken(false);
+    setTokenPresent(false);
+    setToken('');
     navigate('/');
   };
 
   const handleSubmit = () => {
-    // const submittedToken = 'hesse area tawny'
-
     const tokenQuery = query(
       collection(db, 'groceries'),
       where('user_token', '==', `${submittedToken}`),
@@ -80,7 +85,7 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
       <div>
-        {token ? (
+        {tokenPresent ? (
           <>
             <button onClick={deleteStorage}>logout</button>
             <NavLinks />
@@ -111,14 +116,8 @@ function App() {
       </div>
 
       <Routes>
-        <Route
-          path="item-list"
-          element={<ItemList token={localStorage.shoppingListToken} />}
-        />
-        <Route
-          path="add-item"
-          element={<AddItem token={localStorage.shoppingListToken} />}
-        />
+        <Route path="item-list" element={<ItemList token={token} />} />
+        <Route path="add-item" element={<AddItem token={token} />} />
       </Routes>
     </div>
   );

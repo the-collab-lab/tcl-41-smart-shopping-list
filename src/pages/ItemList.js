@@ -10,7 +10,7 @@ function ItemList({ token }) {
   useEffect(() => {
     const tokenQuery = query(
       collection(db, 'groceries'),
-      where('user_token', '==', `${localStorage.shoppingListToken}`),
+      where('user_token', '==', `${token}`),
     );
     const queryToken = async (e) => {
       try {
@@ -34,10 +34,7 @@ function ItemList({ token }) {
       <h1>Your Items</h1>
       <h2>your token: {token}</h2>
       {docs.map((doc) => (
-        <p key={doc.id}>
-          {doc.item_name}
-          {doc.user_token}
-        </p>
+        <p key={doc.id}>{doc.item_name}</p>
       ))}
     </>
   );

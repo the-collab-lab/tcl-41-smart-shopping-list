@@ -29,29 +29,34 @@ const AddItemForm = ({ token }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newItem = itemName
-      .replace(/[^\w\s]|_/g, '')
-      .replace(/\s+/g, ' ')
-      .toLowerCase();
-    console.log(newItem);
+    //JESS: Honz code to help with Issue #6
+    // const newItem = itemName
+    //   .replace(/[^\w\s]|_/g, '')
+    //   .replace(/\s+/g, ' ')
+    //   .toLowerCase();
+    // console.log(newItem);
 
-    if (!newItem) {
-      // return false;
-      alert('must add item');
-    }
-    // else if (db.includes(newItem)){
-    //   alert('duplicate')
+    // if (!newItem) {
+    //   // return false;
+    //   alert('must add item');
     // }
-    else {
-      addToDb(
-        newItem,
-        parseInt(purchaseInterval),
-        localStorage.shoppingListToken,
-      );
-    }
+    // // else if (db.includes(newItem)){
+    // //   alert('duplicate')
+    // // }
+    // else {
+    //   console.log(token)
+    //   addToDb(
+    //     newItem,
+    //     parseInt(purchaseInterval),
+    //     // localStorage.shoppingListToken,
+    //     token,
+    //   );
+    // }
     //breve meek clone
+    //JESS: original db call
     // addToDb(itemName, parseInt(purchaseInterval), props.token);
-    console.log(collection(db, 'groceries'));
+    addToDb(itemName, parseInt(purchaseInterval), token);
+    // console.log(collection(db, 'groceries'));
   };
 
   return (
