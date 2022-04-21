@@ -19,7 +19,7 @@ async function addToDb(item_name, purchase_interval, user_token) {
     console.error('Error adding document: ', e);
   }
 }
-const AddItemForm = (props) => {
+const AddItemForm = ({ token }) => {
   const [itemName, setItemName] = useState('');
   const [purchaseInterval, setPurchaseInterval] = useState('7');
   const [docs, setDocs] = useState([]);
@@ -28,7 +28,7 @@ const AddItemForm = (props) => {
   useEffect(() => {
     const tokenQuery = query(
       collection(db, 'groceries'),
-      where('user_token', '==', `${props.token}`),
+      where('user_token', '==', `${token}`),
     );
     const queryToken = async (e) => {
       try {
@@ -38,13 +38,12 @@ const AddItemForm = (props) => {
           snapshotDocs.push({ ...doc.data(), id: doc.id }),
         );
         setDocs(snapshotDocs);
-        console.log(snapshotDocs);
       } catch (e) {
         console.log(e.message);
       }
     };
     queryToken();
-  }, [itemName, props.token]);
+  }, [token]);
 
   const handleItemNameChange = (e) => setItemName(e.target.value);
   const handleRadioChange = (e) => setPurchaseInterval(e.target.value);
@@ -53,7 +52,6 @@ const AddItemForm = (props) => {
     return removePunctuation(doc.item_name);
   });
 
-  console.log('ITEM ARRAY', itemArray);
   // punctuation and capital check with regex
   function removePunctuation(stringData) {
     return stringData
@@ -73,9 +71,8 @@ const AddItemForm = (props) => {
     } else if (itemArray.includes(noPuncShoppingItem)) {
       alert('duplicate');
     } else {
-      addToDb(itemName, parseInt(purchaseInterval), props.token);
+      addToDb(itemName, parseInt(purchaseInterval), token);
     }
-    console.log(itemName);
   };
 
   return (
