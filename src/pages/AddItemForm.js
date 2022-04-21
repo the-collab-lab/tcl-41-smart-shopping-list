@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { db } from '../lib/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { getDocs, query, where } from 'firebase/firestore';
@@ -19,41 +19,13 @@ async function addToDb(item_name, purchase_interval, user_token) {
     console.error('Error adding document: ', e);
   }
 }
-const AddItemForm = (props) => {
+const AddItemForm = ({ token }) => {
   const [itemName, setItemName] = useState('');
   const [purchaseInterval, setPurchaseInterval] = useState('7');
-  const [docs, setDocs] = useState([]);
-
-  //on page load, check the db
-  useEffect(() => {
-    const tokenQuery = query(
-      collection(db, 'groceries'),
-      where('user_token', '==', `${props.token}`),
-    );
-    const queryToken = async (e) => {
-      try {
-        const querySnapshot = await getDocs(tokenQuery);
-        const snapshotDocs = [];
-        querySnapshot.forEach((doc) =>
-          snapshotDocs.push({ ...doc.data(), id: doc.id }),
-        );
-        setDocs(snapshotDocs);
-        console.log(snapshotDocs);
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
-    queryToken();
-  }, [itemName, props.token]);
 
   const handleItemNameChange = (e) => setItemName(e.target.value);
   const handleRadioChange = (e) => setPurchaseInterval(e.target.value);
 
-  const itemArray = docs.map((doc) => {
-    return removePunctuation(doc.item_name);
-  });
-
-  console.log('ITEM ARRAY', itemArray);
   // punctuation and capital check with regex
   function removePunctuation(stringData) {
     return stringData
@@ -62,18 +34,29 @@ const AddItemForm = (props) => {
       .toLowerCase();
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const shoppingItem = itemName;
     const noPuncShoppingItem = removePunctuation(shoppingItem);
-    // Check for duplicates and add unique items to list
+    const tokenQuery = query(
+      collection(db, 'groceries'),
+      where('user_token', '==', `${token}`),
+    );
+    const querySnapshot = await getDocs(tokenQuery);
+    const snapshotDocs = [];
+    querySnapshot.forEach((doc) =>
+      snapshotDocs.push({ ...doc.data(), id: doc.id }),
+    );
+    const itemArray = snapshotDocs.map((snapshotDoc) => {
+      return removePunctuation(snapshotDoc.item_name);
+    });
     if (!noPuncShoppingItem) {
       alert('must add item');
       console.log(collection((db, 'groceries')));
     } else if (itemArray.includes(noPuncShoppingItem)) {
       alert('duplicate');
     } else {
-      addToDb(itemName, parseInt(purchaseInterval), props.token);
+      addToDb(itemName, parseInt(purchaseInterval), token);
     }
     console.log(itemName);
   };
