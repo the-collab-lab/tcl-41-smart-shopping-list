@@ -6,10 +6,7 @@ function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
 
   useEffect(() => {
-    const tokenQuery = query(
-      collection(db, 'groceries'),
-      where('user_token', '==', `${token}`),
-    );
+    const tokenQuery = query(collection(db, token));
     const queryToken = async (e) => {
       try {
         const querySnapshot = await getDocs(tokenQuery);

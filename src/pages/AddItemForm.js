@@ -1,14 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import { db } from '../lib/firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, setDoc } from 'firebase/firestore';
 
 async function addToDb(item_name, purchase_interval, user_token) {
   try {
-    const docRef = await addDoc(collection(db, 'groceries'), {
-      item_name: item_name,
-      purchase_interval: purchase_interval,
-      user_token: user_token,
+    const docRef = await addDoc(collection(db, user_token), {
+      item_name,
+      purchase_interval,
       last_purchased_date: null,
     });
     alert('Item was submitted: ' + item_name);

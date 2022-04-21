@@ -6,10 +6,16 @@ import AddItem from './components/AddItem/AddItem';
 import NavLinks from './components/Navigation/NavLinks';
 import ItemList from './pages/ItemList';
 import { db } from './lib/firebase';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  addCollection,
+} from 'firebase/firestore';
 
 function App() {
-  const [tokenPresent, setTokenPresent] = useState(null);
   const [token, setToken] = useState('');
   const navigate = useNavigate();
   const [submittedToken, setSubmittedToken] = useState('');
@@ -21,28 +27,26 @@ function App() {
     const loadedToken = JSON.parse(json);
     if (loadedToken) {
       setToken(loadedToken);
-      setTokenPresent(true);
     }
   }, [token]);
 
   const onClick = () => {
-    localStorage.setItem('shoppingListToken', JSON.stringify(getToken()));
+    const newToken = getToken();
+    addDoc(collection(db, newToken), {});
+    localStorage.setItem('shoppingListToken', JSON.stringify(newToken));
     setToken(JSON.parse(localStorage.shoppingListToken));
     navigate('/item-list');
   };
 
   const deleteStorage = () => {
     localStorage.removeItem('shoppingListToken');
-    setTokenPresent(false);
     setToken('');
     navigate('/');
   };
 
-  const handleSubmit = () => {
-    const tokenQuery = query(
-      collection(db, 'groceries'),
-      where('user_token', '==', `${submittedToken}`),
-    );
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const tokenQuery = query(collection(db, submittedToken));
     const queryToken = async (e) => {
       try {
         const querySnapshot = await getDocs(tokenQuery);
@@ -71,7 +75,7 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
       <div>
-        {tokenPresent ? (
+        {!!token ? (
           <>
             <button onClick={deleteStorage}>logout</button>
             <NavLinks />
@@ -85,17 +89,17 @@ function App() {
             <button onClick={onClick}>create a new list</button>
 
             <header>or join an existing list</header>
-            <label>
-              token
-              <input
-                type="text"
-                value={submittedToken}
-                onChange={handleItemNameChange}
-              />
-            </label>
-            <button type="submit" onClick={handleSubmit}>
-              join list
-            </button>
+            <form onSubmit={handleSubmit}>
+              <label>
+                token
+                <input
+                  type="text"
+                  value={submittedToken}
+                  onChange={handleItemNameChange}
+                />
+              </label>
+              <button type="submit">join list</button>
+            </form>
           </>
         )}
       </div>
