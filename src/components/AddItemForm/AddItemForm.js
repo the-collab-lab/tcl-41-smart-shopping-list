@@ -32,6 +32,9 @@ const AddItemForm = ({ token }) => {
       .replace(/[^\w\s]|_/g, '')
       .replace(/\s+/g, ' ')
       .toLowerCase();
+    //  \escape, [^] matches characters not in brackets, \w word character,
+    //  \s whitespace, /g indicates that the regular expression should be tested again all possible matches in a string.
+    //
   }
 
   const handleSubmit = async (e) => {
