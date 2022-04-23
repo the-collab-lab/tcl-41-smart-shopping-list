@@ -6,14 +6,7 @@ import AddItem from './components/AddItem/AddItem';
 import NavLinks from './components/Navigation/NavLinks';
 import ItemList from './pages/ItemList';
 import { db } from './lib/firebase';
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  addDoc,
-  addCollection,
-} from 'firebase/firestore';
+import { collection, getDocs, query, addDoc } from 'firebase/firestore';
 
 function App() {
   const [token, setToken] = useState('');
