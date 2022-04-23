@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { db } from '../lib/firebase';
+import { db } from '../../lib/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { getDocs, query, where } from 'firebase/firestore';
 
@@ -36,8 +36,7 @@ const AddItemForm = ({ token }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const shoppingItem = itemName;
-    const noPuncShoppingItem = removePunctuation(shoppingItem);
+    const noPuncShoppingItem = removePunctuation(itemName);
     const tokenQuery = query(
       collection(db, 'groceries'),
       where('user_token', '==', `${token}`),
@@ -50,10 +49,7 @@ const AddItemForm = ({ token }) => {
     const itemArray = snapshotDocs.map((snapshotDoc) => {
       return removePunctuation(snapshotDoc.item_name);
     });
-    if (!noPuncShoppingItem) {
-      alert('must add item');
-      console.log(collection((db, 'groceries')));
-    } else if (itemArray.includes(noPuncShoppingItem)) {
+    if (itemArray.includes(noPuncShoppingItem)) {
       alert('duplicate');
     } else {
       addToDb(itemName, parseInt(purchaseInterval), token);
@@ -64,7 +60,12 @@ const AddItemForm = ({ token }) => {
     <form onSubmit={handleSubmit}>
       <label>
         Item Name:
-        <input type="text" value={itemName} onChange={handleItemNameChange} />
+        <input
+          type="text"
+          value={itemName}
+          onChange={handleItemNameChange}
+          required
+        />
       </label>
       <p>How soon will you buy this again?</p>
       <fieldset>
