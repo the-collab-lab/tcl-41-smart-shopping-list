@@ -9,7 +9,6 @@ import { db } from './lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 function App() {
-  const [tokenPresent, setTokenPresent] = useState(null);
   const [token, setToken] = useState('');
   const navigate = useNavigate();
   const [submittedToken, setSubmittedToken] = useState('');
@@ -21,7 +20,6 @@ function App() {
     const loadedToken = JSON.parse(json);
     if (loadedToken) {
       setToken(loadedToken);
-      setTokenPresent(true);
     }
   }, [token]);
 
@@ -33,7 +31,6 @@ function App() {
 
   const deleteStorage = () => {
     localStorage.removeItem('shoppingListToken');
-    setTokenPresent(false);
     setToken('');
     navigate('/');
   };
@@ -71,7 +68,7 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
       <div>
-        {tokenPresent ? (
+        {token ? (
           <>
             <button onClick={deleteStorage}>logout</button>
             <NavLinks />
