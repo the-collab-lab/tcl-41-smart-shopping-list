@@ -19,7 +19,7 @@ async function addToDb(item_name, purchase_interval, user_token) {
   }
 }
 
-const AddItemForm = (props) => {
+const AddItemForm = ({ token }) => {
   const [itemName, setItemName] = useState('');
   const [purchaseInterval, setPurchaseInterval] = useState('7');
 
@@ -28,8 +28,9 @@ const AddItemForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addToDb(itemName, parseInt(purchaseInterval), props.token);
+    addToDb(itemName, parseInt(purchaseInterval), token);
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
