@@ -2,9 +2,9 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import { getToken } from '@the-collab-lab/shopping-list-utils';
 import { useState, useEffect } from 'react';
-import AddItem from './components/AddItem/AddItem';
 import NavLinks from './components/Navigation/NavLinks';
 import ItemList from './pages/ItemList';
+import AddItem from './pages/AddItem';
 import { db } from './lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 

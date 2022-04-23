@@ -1,4 +1,4 @@
-import AddItemForm from '../../pages/AddItemForm';
+import AddItemForm from '../components/AddItemForm/AddItemForm';
 
 function AddItem({ token }) {
   return (
