@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import { db } from '../../lib/firebase';
 import { addDoc, collection } from 'firebase/firestore';
@@ -19,6 +18,7 @@ async function addToDb(item_name, purchase_interval, user_token) {
     console.error('Error adding document: ', e);
   }
 }
+
 const AddItemForm = ({ token }) => {
   const [itemName, setItemName] = useState('');
   const [purchaseInterval, setPurchaseInterval] = useState('7');

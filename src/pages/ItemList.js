@@ -18,9 +18,8 @@ function ItemList({ token }) {
           snapshotDocs.push({ ...doc.data(), id: doc.id }),
         );
         setDocs(snapshotDocs);
-        console.log(snapshotDocs);
       } catch (e) {
-        console.log(e.message);
+        console.error(e.message);
       }
     };
     queryToken();
@@ -29,6 +28,7 @@ function ItemList({ token }) {
   return (
     <>
       <h1>Your Items</h1>
+      <h2>your token: {token}</h2>
       {docs.map((doc) => (
         <p key={doc.id}>{doc.item_name}</p>
       ))}
