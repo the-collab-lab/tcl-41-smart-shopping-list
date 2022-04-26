@@ -85,7 +85,7 @@ function App() {
             <button onClick={onClick}>create a new list</button>
 
             <header>or join an existing list</header>
-            <form>
+            <form onSubmit={handleSubmit}>
               <label>
                 token
                 <input
@@ -95,9 +95,7 @@ function App() {
                   required
                 />
               </label>
-              <button type="submit" onClick={handleSubmit}>
-                join list
-              </button>
+              <button type="submit">join list</button>
             </form>
           </>
         )}
