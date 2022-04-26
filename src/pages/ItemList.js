@@ -1,6 +1,7 @@
 import { db } from '../lib/firebase';
 import { useEffect, useState } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import { NavLink } from 'react-router-dom';
 
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
@@ -27,11 +28,20 @@ function ItemList({ token }) {
 
   return (
     <>
-      <h1>Your Items</h1>
-      <h2>your token: {token}</h2>
-      {docs.map((doc) => (
-        <p key={doc.id}>{doc.item_name}</p>
-      ))}
+      {docs.length ? (
+        <>
+          <h1>Your Items</h1>
+          <h2>your token: {token}</h2>
+          {docs.map((doc) => (
+            <p key={doc.id}>{doc.item_name}</p>
+          ))}
+        </>
+      ) : (
+        <>
+          <p>Your Shopping list is currently empty.</p>
+          <NavLink to="/add-item">Add an Item</NavLink>
+        </>
+      )}
     </>
   );
 }
