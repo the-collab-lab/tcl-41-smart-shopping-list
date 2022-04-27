@@ -1,16 +1,27 @@
 import { db } from '../lib/firebase';
 import { useEffect, useState } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  Timestamp,
+} from 'firebase/firestore';
 
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
   const [checkboxStatus, setCheckboxStatus] = useState(false);
+  const handleClick = () => {
+    setCheckboxStatus(!checkboxStatus);
+    // console.log('im checked');
+  };
 
   useEffect(() => {
     const tokenQuery = query(
       collection(db, 'groceries'),
       where('user_token', '==', `${token}`),
     );
+
     const queryToken = async (e) => {
       try {
         const querySnapshot = await getDocs(tokenQuery);
@@ -26,19 +37,41 @@ function ItemList({ token }) {
     queryToken();
   }, [token]);
 
-  const checked = () => {
-    // let timestamp = Timestamp.now().toMillis();
-    // let date = new Date(timestamp);
-    //console.log(date)
+  const isClicked = (e) => {
+    e.preventDefault();
 
-    let checkbox = document.getElementById('myCheckbox');
+    const one = 2000;
+    const thisTimestamp = Timestamp.now().toDate();
+    const theCheckbox = document.getElementById('myCheckbox');
 
-    if (checkboxStatus === true) {
-      console.log('checked');
-    }
+    setTimeout(() => {
+      docs.map((doc) => {
+        // let listItem = doc.item_name
+        // console.log(listItem)
+        if (theCheckbox.checked === true) {
+          if (doc.item_name === 'ham') {
+            doc.last_purchased_date = thisTimestamp;
+            console.log('cheese timestamp', doc.last_purchased_date);
+          }
+        }
+      });
+      console.log('delayed for 1 second');
+      document.getElementById('myCheckbox').checked = false;
+    }, one);
+
+    // docs.map((doc) => {
+    //   setTimeout(() => {
+    //     if (theCheckbox.checked === true) {
+    //       if (doc.item_name === 'ham') {
+    //         doc.last_purchased_date = thisTimestamp;
+    //         console.log('cheese timestamp', doc.last_purchased_date);
+    //       }
+    //     }
+    //   });
+
+    //   return document.getElementById('myCheckbox').checked = false;
+    // }, one);
   };
-
-  // setTimeout(checked, 2000)
 
   return (
     <>
@@ -46,7 +79,13 @@ function ItemList({ token }) {
       <h2>your token: {token}</h2>
       {docs.map((doc) => (
         <>
-          <input id="myCheckbox" type="checkbox" onClick={checked} />
+          <input
+            id="myCheckbox"
+            // name={doc.item_name}
+            type="checkbox"
+            onClick={handleClick}
+            onChange={isClicked}
+          />
           <p key={doc.id}>{doc.item_name}</p>
         </>
       ))}
@@ -55,3 +94,19 @@ function ItemList({ token }) {
 }
 
 export default ItemList;
+
+// const today = new Date();
+// //console.log(today)
+// const tomorrow = new Date(today);
+// tomorrow.setDate(tomorrow.getDate() + 1);
+// //console.log(tomorrow)
+// const tenSeconds = new Date(today);
+// tenSeconds.setSeconds(tenSeconds.getSeconds() + 1);
+
+// // const gapTime = Math.abs(tenSeconds.getTime() - today.getTime());
+// // const timeBetween = gapTime / 1000;
+// //console.log(timeBetween);
+
+// const one = 2000;
+// const thisTimestamp = Timestamp.now().toDate();
+// const theCheckbox = document.getElementById('myCheckbox');
