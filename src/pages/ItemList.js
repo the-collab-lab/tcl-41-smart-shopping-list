@@ -16,6 +16,7 @@ const ONE_DAY = ONE_HOUR * 24;
 
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
+  const [now, setNow] = useState(Date.now());
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchDocs = async (userToken) => {
@@ -41,6 +42,14 @@ function ItemList({ token }) {
   useEffect(() => {
     fetchDocs(token);
   }, [token]);
+
+  useEffect(() => {
+    // Update "now" every second to force the page to re-render and keep the checkbox state up to date;
+    const intervalId = setInterval(() => {
+      setNow(Date.now());
+    }, ONE_SECOND);
+    return () => clearInterval(intervalId);
+  }, []);
 
   const isClicked = async ({ target: { checked, id } }) => {
     /**
@@ -68,8 +77,7 @@ function ItemList({ token }) {
       <h1>Your Items</h1>
       <h2>your token: {token}</h2>
       {docs.map((doc) => {
-        const wasCheckedInLast24Hours =
-          Date.now() - doc.last_purchased_date < ONE_DAY;
+        const wasCheckedInLast24Hours = now - doc.last_purchased_date < ONE_DAY;
 
         return (
           <div key={doc.id}>
