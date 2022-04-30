@@ -35,27 +35,30 @@ function App() {
     navigate('/');
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const tokenQuery = query(
       collection(db, 'groceries'),
       where('user_token', '==', `${submittedToken}`),
     );
-    const queryToken = async (e) => {
+    const queryToken = async () => {
       try {
         const querySnapshot = await getDocs(tokenQuery);
         const snapshotDocs = [];
         querySnapshot.forEach((doc) =>
           snapshotDocs.push({ ...doc.data(), id: doc.id }),
         );
-        if (!snapshotDocs.length) {
+        if (submittedToken && !snapshotDocs.length) {
           alert('token does not exist');
-        } else {
+        } else if (submittedToken && snapshotDocs.length) {
           const json = JSON.stringify(submittedToken);
           localStorage.setItem('shoppingListToken', json);
           setToken(true);
           navigate('/item-list', {
             state: { token: submittedToken },
           });
+        } else {
+          console.log('no token submitted');
         }
       } catch (e) {
         console.error(e.message);
@@ -82,17 +85,18 @@ function App() {
             <button onClick={onClick}>create a new list</button>
 
             <header>or join an existing list</header>
-            <label>
-              token
-              <input
-                type="text"
-                value={submittedToken}
-                onChange={handleItemNameChange}
-              />
-            </label>
-            <button type="submit" onClick={handleSubmit}>
-              join list
-            </button>
+            <form onSubmit={handleSubmit}>
+              <label>
+                token
+                <input
+                  type="text"
+                  value={submittedToken}
+                  onChange={handleItemNameChange}
+                  required
+                />
+              </label>
+              <button type="submit">join list</button>
+            </form>
           </>
         )}
       </div>

@@ -1,5 +1,6 @@
 import { db } from '../lib/firebase';
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   collection,
   getDocs,
@@ -13,6 +14,7 @@ const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
+
 
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
@@ -74,27 +76,36 @@ function ItemList({ token }) {
 
   return (
     <>
-      <h1>Your Items</h1>
-      <h2>your token: {token}</h2>
-      {docs.map((doc) => {
-        const wasCheckedInLast24Hours = now - doc.last_purchased_date < ONE_DAY;
-
-        return (
-          <div key={doc.id}>
-            <label>
-              <input
-                name={doc.item_name}
-                disabled={isLoading}
-                checked={wasCheckedInLast24Hours}
-                id={doc.id}
-                type="checkbox"
-                onChange={(e) => isClicked(e)}
-              />
-              {doc.item_name}
-            </label>
-          </div>
-        );
-      })}
+      {docs.length ? (
+      <>
+        <h1>Your Items</h1>
+        <h2>your token: {token}</h2>
+        {docs.map((doc) => {
+          const wasCheckedInLast24Hours = now - doc.last_purchased_date < ONE_DAY;
+          return (
+            <div key={doc.id}>
+              <label>
+                <input
+                  name={doc.item_name}
+                  disabled={isLoading}
+                  checked={wasCheckedInLast24Hours}
+                  id={doc.id}
+                  type="checkbox"
+                  onChange={(e) => isClicked(e)}
+                />
+                {doc.item_name}
+              </label>
+            </div>
+          );
+        })}
+      </>
+      ) : (
+        <>
+          <p>Your Shopping list is currently empty.</p>
+          <NavLink to="/add-item">Add an Item</NavLink>
+        </>
+      )}
+      
     </>
   );
 }
