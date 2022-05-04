@@ -59,13 +59,14 @@ function ItemList({ token }) {
      * because we don't want to purchase an item twice.
      */
 
-    //filter thru docs to access item purchases
-    //variable 'total' adds +1 on each click (purchase)
-    const itemId = docs.filter((doc) => doc.id === id);
-    const total = itemId[0].total_purchases + 1;
+    const itemId = docs.find((doc) => {
+      return doc.id === id;
+    });
 
-    const previousEstimate = itemId[0].previous_estimate;
-    const lastPurchased = itemId[0].last_purchased_date;
+    const total = itemId.total_purchases + 1;
+    const previousEstimate = itemId.previous_estimate;
+    const lastPurchased = itemId.last_purchased_date;
+
     const today = Date.now();
 
     const daysSincePurchase = today - lastPurchased;
@@ -102,10 +103,10 @@ function ItemList({ token }) {
     let minutes = (ms / (1000 * 60)).toFixed(1);
     let hours = (ms / (1000 * 60 * 60)).toFixed(1);
     let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-    if (seconds < 60) return seconds; //+ " Sec";
-    else if (minutes < 60) return minutes; //+ " Min";
-    else if (hours < 24) return hours; //+ " Hrs";
-    else return days; //+ " Days"
+    if (seconds < 60) return seconds;
+    else if (minutes < 60) return minutes;
+    else if (hours < 24) return hours;
+    else return days;
   }
 
   return (
