@@ -59,19 +59,26 @@ function ItemList({ token }) {
      * because we don't want to purchase an item twice.
      */
 
+    // we obtain the object with the associated id WORKING
     const itemId = docs.find((doc) => {
       return doc.id === id;
     });
 
-    const total = itemId.total_purchases + 1;
-    const previousEstimate = itemId.previous_estimate;
+    const totalPurchases = itemId.total_purchases + 1;
+
+    const previousEstimate = itemId.previous_estimate
+      ? itemId.previous_estimate
+      : itemId.purchase_interval;
+
     const lastPurchased = itemId.last_purchased_date;
 
     const today = Date.now();
 
-    const daysSincePurchase = today - lastPurchased;
-    //msToTime function below
-    const milliseconds = Math.round(msToTime(daysSincePurchase));
+    const daysSincePurchase =
+      itemId.last_purchased_date === null ? 0 : today - lastPurchased;
+
+    //msToDay function below
+    const daysSinceLastTransaction = Math.round(msToDay(daysSincePurchase));
 
     if (!checked) return;
 
@@ -80,12 +87,12 @@ function ItemList({ token }) {
       setIsLoading(true);
       await updateDoc(newDoc, {
         last_purchased_date: Date.now(),
-        total_purchases: total,
+        total_purchases: totalPurchases,
         //added key value pair to store estimate
         previous_estimate: calculateEstimate(
           previousEstimate,
-          milliseconds,
-          total,
+          daysSinceLastTransaction,
+          totalPurchases,
         ),
       });
       setIsLoading(false);
@@ -97,16 +104,9 @@ function ItemList({ token }) {
     fetchDocs(token);
   };
 
-  //found conversion from milliseconds to seconds, minutes, hours & days
-  function msToTime(ms) {
-    let seconds = (ms / 1000).toFixed(1);
-    let minutes = (ms / (1000 * 60)).toFixed(1);
-    let hours = (ms / (1000 * 60 * 60)).toFixed(1);
-    let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-    if (seconds < 60) return seconds;
-    else if (minutes < 60) return minutes;
-    else if (hours < 24) return hours;
-    else return days;
+  //converts milliseconds to days
+  function msToDay(ms) {
+    return (ms / (1000 * 60 * 60 * 24)).toFixed(1);
   }
 
   return (
