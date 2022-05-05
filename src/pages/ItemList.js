@@ -17,12 +17,12 @@ const ONE_DAY = ONE_HOUR * 24;
 
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
   const [searchInput, setSearchInput] = useState('');
+  //const [filteredList, setFilteredList] = useState([]);
   const [now, setNow] = useState(Date.now());
   const [isLoading, setIsLoading] = useState(false);
-  let list = [];
-  filteredList ? (list = filteredList) : (list = docs);
+  // let list = [];
+  // filteredList ? (list = filteredList) : (list = docs);
 
   const fetchDocs = async (userToken) => {
     const tokenQuery = query(
@@ -77,25 +77,26 @@ function ItemList({ token }) {
     fetchDocs(token);
   };
 
-  useEffect(() => {
-    const filterList = (e) => {
-      let lowerCase = searchInput.toLowerCase();
-      console.log(lowerCase);
+  //useEffect(() => {
+  const filterList = (e) => {
+    let lowerCase = searchInput.toLowerCase();
+    console.log(lowerCase);
 
-      const filteredData = docs.filter((item) => {
-        //if no input the return the original
-        if (searchInput === '') {
-          return item;
-        }
-        //return the item which contains the user input
-        else {
-          return item.item_name.toLowerCase().includes(lowerCase);
-        }
-      });
-      return filteredData;
-    };
-    setFilteredList(filterList());
-  }, [searchInput, docs]);
+    const filteredData = docs.filter((item) => {
+      //if no input the return the original
+      if (searchInput === '') {
+        return item;
+      }
+      //return the item which contains the user input
+      else {
+        return item.item_name.toLowerCase().includes(lowerCase);
+      }
+    });
+    return filteredData;
+  };
+  //setFilteredList(filterList());
+  //}, [searchInput, docs]);
+  const list = filterList();
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
