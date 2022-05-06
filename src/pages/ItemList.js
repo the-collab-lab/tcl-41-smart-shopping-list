@@ -45,14 +45,6 @@ function ItemList({ token }) {
     fetchDocs(token);
   }, [token]);
 
-  useEffect(() => {
-    // Update "now" every second to force the page to re-render and keep the checkbox state up to date;
-    const intervalId = setInterval(() => {
-      setNow(Date.now());
-    }, ONE_SECOND);
-    return () => clearInterval(intervalId);
-  }, []);
-
   const isClicked = async ({ target: { checked, id } }) => {
     /**
      * Return early if the checkbox was already checked
@@ -66,16 +58,15 @@ function ItemList({ token }) {
 
     const totalPurchases = itemId.total_purchases + 1;
 
-    const previousEstimate = itemId.previous_estimate
-      ? itemId.previous_estimate
-      : itemId.purchase_interval;
-
-    const lastPurchased = itemId.last_purchased_date;
+    const previousEstimate =
+      itemId.previous_estimate || itemId.purchase_interval;
 
     const today = Date.now();
 
-    const daysSincePurchase =
-      itemId.last_purchased_date === null ? 0 : today - lastPurchased;
+    // gets the last purchased date for the item
+    const lastPurchased = itemId.last_purchased_date || today;
+
+    const daysSincePurchase = today - lastPurchased;
 
     //msToDay function below
     const daysSinceLastTransaction = Math.round(msToDay(daysSincePurchase));
@@ -88,7 +79,7 @@ function ItemList({ token }) {
       await updateDoc(newDoc, {
         last_purchased_date: Date.now(),
         total_purchases: totalPurchases,
-        //added key value pair to store estimate
+        // added key value pair to store estimate
         previous_estimate: calculateEstimate(
           previousEstimate,
           daysSinceLastTransaction,
