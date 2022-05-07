@@ -15,9 +15,9 @@ const ONE_MINUTE = ONE_SECOND * 60;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
 
-
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
   const [now, setNow] = useState(Date.now());
   const [isLoading, setIsLoading] = useState(false);
 
@@ -74,38 +74,68 @@ function ItemList({ token }) {
     fetchDocs(token);
   };
 
+  const filterList = (e) => {
+    let lowerCase = searchInput.toLowerCase();
+
+    const filteredData = docs.filter((item) => {
+      //if no input the return the original
+      if (searchInput === '') {
+        return item;
+      }
+      //return the item which contains the user input
+      else {
+        return item.item_name.toLowerCase().includes(lowerCase);
+      }
+    });
+    return filteredData;
+  };
+
+  const list = filterList();
+
+  const handleSearchInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
   return (
     <>
       {docs.length ? (
-      <>
-        <h1>Your Items</h1>
-        <h2>your token: {token}</h2>
-        {docs.map((doc) => {
-          const wasCheckedInLast24Hours = now - doc.last_purchased_date < ONE_DAY;
-          return (
-            <div key={doc.id}>
-              <label>
-                <input
-                  name={doc.item_name}
-                  disabled={isLoading}
-                  checked={wasCheckedInLast24Hours}
-                  id={doc.id}
-                  type="checkbox"
-                  onChange={(e) => isClicked(e)}
-                />
-                {doc.item_name}
-              </label>
-            </div>
-          );
-        })}
-      </>
+        <>
+          <h1>Your Items</h1>
+          <h2>your token: {token}</h2>
+          <input
+            name="search list"
+            type="text"
+            value={searchInput}
+            onChange={handleSearchInputChange}
+            placeholder="search for an item"
+          />
+          <button onClick={() => setSearchInput(() => '')}>Reset</button>
+          {list.map((doc) => {
+            const wasCheckedInLast24Hours =
+              now - doc.last_purchased_date < ONE_DAY;
+            return (
+              <div key={doc.id}>
+                <label>
+                  <input
+                    name={doc.item_name}
+                    disabled={isLoading}
+                    checked={wasCheckedInLast24Hours}
+                    id={doc.id}
+                    type="checkbox"
+                    onChange={(e) => isClicked(e)}
+                  />
+                  {doc.item_name}
+                </label>
+              </div>
+            );
+          })}
+        </>
       ) : (
         <>
           <p>Your Shopping list is currently empty.</p>
           <NavLink to="/add-item">Add an Item</NavLink>
         </>
       )}
-      
     </>
   );
 }

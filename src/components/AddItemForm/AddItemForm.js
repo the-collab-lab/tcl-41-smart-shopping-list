@@ -10,6 +10,7 @@ async function addToDb(item_name, purchase_interval, user_token) {
       purchase_interval: purchase_interval,
       user_token: user_token,
       last_purchased_date: null,
+      total_purchases: 0,
     });
     alert('Item was submitted: ' + item_name);
     console.log('Document written with ID: ', docRef.id);
