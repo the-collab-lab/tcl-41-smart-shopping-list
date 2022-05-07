@@ -18,6 +18,7 @@ const ONE_DAY = ONE_HOUR * 24;
 
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
   const [now, setNow] = useState(Date.now());
   const [isLoading, setIsLoading] = useState(false);
 
@@ -95,10 +96,33 @@ function ItemList({ token }) {
     fetchDocs(token);
   };
 
+
   //converts milliseconds to days
   function msToDay(ms) {
     return (ms / (1000 * 60 * 60 * 24)).toFixed(1);
   }
+
+  const filterList = (e) => {
+    let lowerCase = searchInput.toLowerCase();
+
+    const filteredData = docs.filter((item) => {
+      //if no input the return the original
+      if (searchInput === '') {
+        return item;
+      }
+      //return the item which contains the user input
+      else {
+        return item.item_name.toLowerCase().includes(lowerCase);
+      }
+    });
+    return filteredData;
+  };
+
+  const list = filterList();
+
+  const handleSearchInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
 
   return (
     <>
@@ -106,9 +130,17 @@ function ItemList({ token }) {
         <>
           <h1>Your Items</h1>
           <h2>your token: {token}</h2>
-          {docs.map((doc) => {
+          <input
+            name="search list"
+            type="text"
+            value={searchInput}
+            onChange={handleSearchInputChange}
+            placeholder="search for an item"
+          />
+          <button onClick={() => setSearchInput(() => '')}>Reset</button>
+          {list.map((doc) => {
             const wasCheckedInLast24Hours =
-              now - doc.last_purchased_date < ONE_SECOND;
+              now - doc.last_purchased_date < ONE_DAY;
             return (
               <div key={doc.id}>
                 <label>
