@@ -9,6 +9,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 
 const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
@@ -45,34 +46,61 @@ function ItemList({ token }) {
     fetchDocs(token);
   }, [token]);
 
-  useEffect(() => {
-    // Update "now" every second to force the page to re-render and keep the checkbox state up to date;
-    const intervalId = setInterval(() => {
-      setNow(Date.now());
-    }, ONE_SECOND);
-    return () => clearInterval(intervalId);
-  }, []);
-
   const isClicked = async ({ target: { checked, id } }) => {
     /**
      * Return early if the checkbox was already checked
      * because we don't want to purchase an item twice.
      */
+
+    // we obtain the object with the associated id WORKING
+    const itemId = docs.find((doc) => {
+      return doc.id === id;
+    });
+
+    const totalPurchases = itemId.total_purchases + 1;
+
+    const previousEstimate =
+      itemId.previous_estimate || itemId.purchase_interval;
+
+    const today = Date.now();
+
+    // gets the last purchased date for the item
+    const lastPurchased = itemId.last_purchased_date || today;
+
+    const daysSincePurchase = today - lastPurchased;
+
+    //msToDay function below
+    const daysSinceLastTransaction = Math.round(msToDay(daysSincePurchase));
+
     if (!checked) return;
 
     try {
       const newDoc = doc(db, 'groceries', id);
       setIsLoading(true);
-      await updateDoc(newDoc, { last_purchased_date: Date.now() });
+      await updateDoc(newDoc, {
+        last_purchased_date: Date.now(),
+        total_purchases: totalPurchases,
+        // added key value pair to store estimate
+        previous_estimate: calculateEstimate(
+          previousEstimate,
+          daysSinceLastTransaction,
+          totalPurchases,
+        ),
+      });
       setIsLoading(false);
     } catch (e) {
       console.error(e);
       setIsLoading(false);
     }
-
     // We need to fetch the docs again to update the docs in state with the new last_purchased_date.
     fetchDocs(token);
   };
+
+
+  //converts milliseconds to days
+  function msToDay(ms) {
+    return (ms / (1000 * 60 * 60 * 24)).toFixed(1);
+  }
 
   const filterList = (e) => {
     let lowerCase = searchInput.toLowerCase();
