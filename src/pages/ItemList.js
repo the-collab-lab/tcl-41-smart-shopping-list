@@ -96,6 +96,19 @@ function ItemList({ token }) {
     fetchDocs(token);
   };
 
+  // conditional checks:
+
+  // if item < 7 days since last purchased
+  // return box as need to buy soon/color
+
+  // if item > 7 && < 30 days since last purchased
+  // return box as need to buy kind of soon/color
+
+  // if item > 30 days since last purchased
+  // return box as need to buy not so soon/color
+
+  // if item === inactive / item > last purchase >= 2x estimate
+  // return box as inactive
 
   //converts milliseconds to days
   function msToDay(ms) {
@@ -118,7 +131,18 @@ function ItemList({ token }) {
     return filteredData;
   };
 
-  const list = filterList();
+  const list = filterList().sort((item1, item2) => {
+    // console.log(item1)
+    // console.log(item2)
+
+    if (item1.previous_estimate > item2.previous_estimate) return 1;
+    if (item1.previous_estimate < item2.previous_estimate) return -1;
+
+    if (item1.item_name > item2.item_name) return 1;
+    if (item1.item_name < item2.item_name) return -1;
+  });
+
+  console.log(list);
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);

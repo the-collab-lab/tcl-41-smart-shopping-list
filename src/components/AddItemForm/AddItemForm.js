@@ -8,6 +8,8 @@ async function addToDb(item_name, purchase_interval, user_token) {
     const docRef = await addDoc(collection(db, 'groceries'), {
       item_name: item_name,
       purchase_interval: purchase_interval,
+      //changed prev estimate to initialize as purchase_interval
+      previous_estimate: purchase_interval,
       user_token: user_token,
       last_purchased_date: null,
       total_purchases: 0,
