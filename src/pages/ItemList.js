@@ -5,6 +5,7 @@ import {
   collection,
   getDocs,
   updateDoc,
+  deleteDoc,
   doc,
   query,
   where,
@@ -96,7 +97,6 @@ function ItemList({ token }) {
     fetchDocs(token);
   };
 
-
   //converts milliseconds to days
   function msToDay(ms) {
     return (ms / (1000 * 60 * 60 * 24)).toFixed(1);
@@ -122,6 +122,17 @@ function ItemList({ token }) {
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
+  };
+
+  const handleDelete = async (id, item_name) => {
+    const confirmation = window.confirm(
+      `Are you sure you want to delete ${item_name}?`,
+    );
+    if (confirmation) {
+      const docRef = doc(db, 'groceries', id);
+      await deleteDoc(docRef);
+      setDocs(docs.filter((item) => item.id !== id));
+    }
   };
 
   return (
@@ -154,6 +165,9 @@ function ItemList({ token }) {
                   />
                   {doc.item_name}
                 </label>
+                <button onClick={() => handleDelete(doc.id, doc.item_name)}>
+                  Delete
+                </button>
               </div>
             );
           })}
