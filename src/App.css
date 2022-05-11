@@ -20,3 +20,16 @@
 .App-link {
   color: #09d3ac;
 }
+
+.soon-list-items {
+  color: green;
+}
+.kinda-soon-list-items {
+  color: yellow;
+}
+.not-soon-list-items {
+  color: red;
+}
+.inactive-list-items {
+  color: grey;
+}

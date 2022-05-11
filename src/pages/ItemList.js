@@ -135,11 +135,12 @@ function ItemList({ token }) {
     // console.log(item1)
     // console.log(item2)
 
-    if (item1.previous_estimate > item2.previous_estimate) return 1;
-    if (item1.previous_estimate < item2.previous_estimate) return -1;
+    if (item1.previous_estimate > item2.previous_estimate) return -1;
+    if (item1.previous_estimate < item2.previous_estimate) return 1;
 
-    if (item1.item_name > item2.item_name) return 1;
-    if (item1.item_name < item2.item_name) return -1;
+    if (item1.item_name.toLowerCase() > item2.item_name.toLowerCase()) return 1;
+    if (item1.item_name.toLowerCase() < item2.item_name.toLowerCase())
+      return -1;
   });
 
   console.log(list);
@@ -165,8 +166,42 @@ function ItemList({ token }) {
           {list.map((doc) => {
             const wasCheckedInLast24Hours =
               now - doc.last_purchased_date < ONE_DAY;
+
+            const itemColor = () => {
+              //assigns style based on purchase urgency
+              //commented out first part of conditional bc it didn't fit our data
+              if (
+                /*doc.total_purchases === 1 || */ now -
+                  doc.last_purchased_date >=
+                2 * doc.previousEstimate
+              ) {
+                console.log('inactive');
+                return 'grey';
+              } else if (doc.previous_estimate > 30) {
+                console.log('>30');
+                return 'red';
+              } else if (
+                doc.previous_estimate > 7 &&
+                doc.previous_estimate <= 30
+              ) {
+                console.log('7-30');
+                return 'yellow';
+              } else if (doc.previous_estimate <= 7) {
+                console.log(7);
+                return 'green';
+              } else {
+                console.log('nothing');
+                return;
+              }
+            };
+
             return (
-              <div key={doc.id}>
+              <div
+                key={doc.id}
+                style={{
+                  backgroundColor: itemColor(),
+                }}
+              >
                 <label>
                   <input
                     name={doc.item_name}
