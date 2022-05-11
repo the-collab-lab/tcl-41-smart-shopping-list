@@ -169,10 +169,12 @@ function ItemList({ token }) {
 
             const itemColor = () => {
               //assigns style based on purchase urgency
-              //commented out first part of conditional bc it didn't fit our data
+              //1.commented out first part of conditional bc it didn't fit our data... 0/1 && 2x past estimate?
+              //place inactive items into own map after active list?
               if (
-                /*doc.total_purchases === 1 || */ now -
-                  doc.last_purchased_date >=
+                /*doc.total_purchases === 1 || */ msToDay(
+                  now - doc.last_purchased_date,
+                ) >=
                 2 * doc.previousEstimate
               ) {
                 console.log('inactive');
