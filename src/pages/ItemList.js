@@ -19,7 +19,7 @@ const ONE_DAY = ONE_HOUR * 24;
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
   const [searchInput, setSearchInput] = useState('');
-  const [now, setNow] = useState(Date.now());
+  const [now] = useState(Date.now());
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchDocs = async (userToken) => {
@@ -96,20 +96,6 @@ function ItemList({ token }) {
     fetchDocs(token);
   };
 
-  // conditional checks:
-
-  // if item < 7 days since last purchased
-  // return box as need to buy soon/color
-
-  // if item > 7 && < 30 days since last purchased
-  // return box as need to buy kind of soon/color
-
-  // if item > 30 days since last purchased
-  // return box as need to buy not so soon/color
-
-  // if item === inactive / item > last purchase >= 2x estimate
-  // return box as inactive
-
   //converts milliseconds to days
   function msToDay(ms) {
     return (ms / (1000 * 60 * 60 * 24)).toFixed(1);
@@ -131,19 +117,18 @@ function ItemList({ token }) {
     return filteredData;
   };
 
+  // eslint-disable-next-line array-callback-return
   const list = filterList().sort((item1, item2) => {
     // console.log(item1)
     // console.log(item2)
 
-    if (item1.previous_estimate > item2.previous_estimate) return -1;
-    if (item1.previous_estimate < item2.previous_estimate) return 1;
+    if (item1.previous_estimate > item2.previous_estimate) return 1;
+    if (item1.previous_estimate < item2.previous_estimate) return -1;
 
     if (item1.item_name.toLowerCase() > item2.item_name.toLowerCase()) return 1;
     if (item1.item_name.toLowerCase() < item2.item_name.toLowerCase())
       return -1;
   });
-
-  console.log(list);
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
@@ -165,39 +150,44 @@ function ItemList({ token }) {
           <button onClick={() => setSearchInput(() => '')}>Reset</button>
           {list.map((doc) => {
             const wasCheckedInLast24Hours =
+              // now - doc.last_purchased_date < ONE_SECOND;
               now - doc.last_purchased_date < ONE_DAY;
+
+            const inactiveItem =
+              msToDay(now - doc.last_purchased_date) >=
+              doc.previous_estimate - 2;
 
             const itemStatus = () => {
               //assigns style based on purchase urgency
               //items are grey if purchased recently because of small estimate
-              // if (msToDay(now - doc.last_purchased_date,) >= 2 * doc.previous_estimate) {
-              //   console.log('inactive');
-              //   // return 'grey';
-              //   return {
-              //     color: 'grey',
-              //     label: 'inactive item'
-              //   }
-              // } else
-              if (doc.previous_estimate > 30) {
-                console.log('>30');
-                // return 'red';
+              //45 days from now for testing
+              console.log(msToDay(now - 1648431178591)); //45 days ago 5/12/22**
+              if (
+                doc.last_purchased_date !== null &&
+                doc.previous_estimate !== 0 &&
+                inactiveItem
+              ) {
+                console.log('inactive');
+                return {
+                  color: 'grey',
+                  label: 'inactive item',
+                };
+              } else if (doc.previous_estimate >= 30) {
+                console.log('>= 30');
                 return {
                   color: 'red',
                   label: `${doc.previous_estimate} days expected until purchase needed`,
                 };
               } else if (
                 doc.previous_estimate > 7 &&
-                doc.previous_estimate <= 30
+                doc.previous_estimate < 30
               ) {
-                console.log('7-30');
-                // return 'yellow';
                 return {
                   color: 'yellow',
                   label: `${doc.previous_estimate} days expected until purchase needed`,
                 };
               } else if (doc.previous_estimate <= 7) {
                 console.log(7);
-                // return 'green';
                 return {
                   color: 'green',
                   label: `${doc.previous_estimate} days expected until purchase needed`,
