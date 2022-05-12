@@ -155,7 +155,7 @@ function ItemList({ token }) {
 
             const inactiveItem =
               msToDay(now - doc.last_purchased_date) >=
-              doc.previous_estimate - 2;
+              doc.previous_estimate * 2;
 
             const itemStatus = () => {
               //assigns style based on purchase urgency
