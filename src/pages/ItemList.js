@@ -5,6 +5,7 @@ import {
   collection,
   getDocs,
   updateDoc,
+  deleteDoc,
   doc,
   query,
   where,
@@ -133,6 +134,17 @@ function ItemList({ token }) {
     setSearchInput(e.target.value);
   };
 
+  const handleDelete = async (id, item_name) => {
+    const confirmation = window.confirm(
+      `Are you sure you want to delete ${item_name}?`,
+    );
+    if (confirmation) {
+      const docRef = doc(db, 'groceries', id);
+      await deleteDoc(docRef);
+      setDocs(docs.filter((item) => item.id !== id));
+    }
+  }
+  
   const itemStatus = (lastPurchasedDate, previousEstimate, inactiveItem) => {
     //assigns style based on purchase urgency
     if (lastPurchasedDate !== null && previousEstimate !== 0 && inactiveItem) {
@@ -205,6 +217,9 @@ function ItemList({ token }) {
                   />
                   {doc.item_name}
                 </label>
+                <button onClick={() => handleDelete(doc.id, doc.item_name)}>
+                  Delete
+                </button>
               </div>
             );
           })}
