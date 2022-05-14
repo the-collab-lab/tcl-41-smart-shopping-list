@@ -17,10 +17,11 @@ const ONE_MINUTE = ONE_SECOND * 60;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
 
+const now = Date.now();
+
 function ItemList({ token }) {
   const [docs, setDocs] = useState([]);
   const [searchInput, setSearchInput] = useState('');
-  const [now, setNow] = useState(Date.now());
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchDocs = async (userToken) => {
@@ -118,7 +119,16 @@ function ItemList({ token }) {
     return filteredData;
   };
 
-  const list = filterList();
+  const list = filterList().sort((item1, item2) => {
+    if (item1.previous_estimate > item2.previous_estimate) return 1;
+    if (item1.previous_estimate < item2.previous_estimate) return -1;
+
+    if (item1.item_name.toLowerCase() > item2.item_name.toLowerCase()) return 1;
+    if (item1.item_name.toLowerCase() < item2.item_name.toLowerCase())
+      return -1;
+
+    return 0;
+  });
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
@@ -132,6 +142,31 @@ function ItemList({ token }) {
       const docRef = doc(db, 'groceries', id);
       await deleteDoc(docRef);
       setDocs(docs.filter((item) => item.id !== id));
+    }
+  }
+  
+  const itemStatus = (lastPurchasedDate, previousEstimate, inactiveItem) => {
+    //assigns style based on purchase urgency
+    if (lastPurchasedDate !== null && previousEstimate !== 0 && inactiveItem) {
+      return {
+        color: 'grey',
+        label: 'inactive item',
+      };
+    } else if (previousEstimate >= 30) {
+      return {
+        color: 'red',
+        label: `${previousEstimate} days expected until purchase needed`,
+      };
+    } else if (previousEstimate > 7 && previousEstimate < 30) {
+      return {
+        color: 'yellow',
+        label: `${previousEstimate} days expected until purchase needed`,
+      };
+    } else if (previousEstimate <= 7) {
+      return {
+        color: 'green',
+        label: `${previousEstimate} days expected until purchase needed`,
+      };
     }
   };
 
@@ -152,8 +187,25 @@ function ItemList({ token }) {
           {list.map((doc) => {
             const wasCheckedInLast24Hours =
               now - doc.last_purchased_date < ONE_DAY;
+
+            const inactiveItem =
+              msToDay(now - doc.last_purchased_date) >=
+              doc.previous_estimate * 2;
+
+            const status = itemStatus(
+              doc.last_purchased_date,
+              doc.previous_estimate,
+              inactiveItem,
+            );
+
             return (
-              <div key={doc.id}>
+              <div
+                key={doc.id}
+                style={{
+                  backgroundColor: status.color,
+                }}
+                aria-label={status.label}
+              >
                 <label>
                   <input
                     name={doc.item_name}
