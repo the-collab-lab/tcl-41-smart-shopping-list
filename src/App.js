@@ -81,22 +81,27 @@ function App() {
             <header className="header">
               Welcome to your Smart Shopping List!
             </header>
+            <div className="subheader">
+              <button className="newListButton" onClick={onClick}>
+                create a new list
+              </button>
 
-            <button onClick={onClick}>create a new list</button>
-
-            <header>or join an existing list</header>
-            <form onSubmit={handleSubmit}>
-              <label>
-                token
+              <header className="listSubhead">or join an existing list</header>
+              <form className="inputForm" onSubmit={handleSubmit}>
                 <input
+                  className="input"
                   type="text"
                   value={submittedToken}
                   onChange={handleItemNameChange}
+                  placeholder="add token here"
+                  aria-label="your token"
                   required
                 />
-              </label>
-              <button type="submit">join list</button>
-            </form>
+                <button className="joinButton" type="submit">
+                  join list
+                </button>
+              </form>
+            </div>
           </>
         )}
       </div>
