@@ -1,0 +1,87 @@
+h1 {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 2em;
+  text-transform: capitalize;
+}
+
+h4 {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 1.5em;
+  font-weight: lighter;
+  margin-top: 0;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+select:focus {
+  outline: none;
+}
+
+.large-container {
+  display: grid;
+  text-align: center;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1em;
+  margin-top: 5%;
+}
+
+.medium-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  text-align: center;
+  border: 2px solid black;
+  padding: 5%;
+  background-color: white;
+  box-shadow: -5px 5px 0px 0px rgba(0, 0, 255, 0.2);
+}
+
+.picJ {
+  height: 150px;
+  margin-bottom: 20px;
+  background-color: pink;
+  padding: 20px;
+  border-radius: 100px;
+}
+
+.picH {
+  height: 150px;
+  margin-bottom: 20px;
+  background-color: rgb(184, 184, 255);
+  padding: 20px;
+  border-radius: 100px;
+}
+
+.picC {
+  height: 150px;
+  margin-bottom: 20px;
+  background-color: rgb(132, 220, 198);
+  padding: 20px;
+  border-radius: 100px;
+}
+
+.picS {
+  height: 150px;
+  margin-bottom: 20px;
+  background-color: lightskyblue;
+  padding: 20px;
+  border-radius: 100px;
+}
+
+.icon img {
+  width: 15%;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.icon :hover {
+  background-color: rgba(2, 62, 138, 0.5);
+}

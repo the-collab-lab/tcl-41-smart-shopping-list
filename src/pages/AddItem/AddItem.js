@@ -1,4 +1,5 @@
-import AddItemForm from '../components/AddItemForm/AddItemForm';
+import AddItemForm from '../../components/AddItemForm/AddItemForm';
+// import { db } from '../../lib/firebase.js';
 
 function AddItem({ token }) {
   return (

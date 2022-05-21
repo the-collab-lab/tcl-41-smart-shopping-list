@@ -1,3 +1,4 @@
+/*
 .App {
   text-align: center;
 }
@@ -7,16 +8,162 @@
 }
 
 .App-header {
-  /* background-color: #282c34; */
+  background-color: #282c34; 
   min-height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  /* color: white; */
+  color: white; 
 }
 
 .App-link {
   color: #09d3ac;
+}
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Ubuntu+Mono:ital@0;1&display=swap');
+
+/* font-family: 'Comfortaa', sans-serif;
+font-family: 'Ubuntu Mono', monospace; */
+
+body {
+  background-color: rgba(202, 232, 252, 1);
+}
+
+html,
+body {
+  font-family: 'Comfortaa', sans-serif;
+  margin: 2%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 2em;
+  text-transform: capitalize;
+}
+
+a:link {
+  text-decoration: none;
+  color: black;
+}
+
+a:visited {
+  color: black;
+}
+
+input:focus {
+  outline: none;
+}
+
+select:focus {
+  outline: none;
+}
+
+button {
+  box-shadow: -5px 5px 0px 0px rgba(0, 0, 255, 0.2);
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  font-family: 'Ubuntu Mono', monospace;
+  padding: 10px;
+  letter-spacing: 0.1em;
+  font-size: 1em;
+}
+
+button:active {
+  box-shadow: -5px 5px 0px 0px rgba(0, 0, 255, 0.2);
+  background-color: grey;
+  color: white;
+}
+
+button:hover {
+  background-color: lightgrey;
+}
+
+button a:active :visited :hover {
+  color: black;
+}
+
+.content {
+  background-color: rgba(255, 255, 255, 1);
+  padding: 5%;
+  border-radius: 10px;
+}
+
+.loading {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-family: 'Ubuntu Mono', monospace;
+  box-shadow: -5px 5px 0px 0px rgba(0, 0, 255, 0.2);
+  background-color: white;
+  -webkit-animation-name: hvr-hang-sink, hvr-hang;
+  animation-name: hvr-hang-sink, hvr-hang;
+  -webkit-animation-duration: 0.3s, 1.5s;
+  animation-duration: 0.3s, 1.5s;
+  -webkit-animation-delay: 0s, 0.3s;
+  animation-delay: 0s, 0.3s;
+  -webkit-animation-timing-function: ease-out, ease-in-out;
+  animation-timing-function: ease-out, ease-in-out;
+  -webkit-animation-iteration-count: 1, infinite;
+  animation-iteration-count: 1, infinite;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-direction: normal, alternate;
+  animation-direction: normal, alternate;
+}
+
+/* Loading Hover Animation */
+@-webkit-keyframes hvr-hang {
+  0% {
+    -webkit-transform: translateY(8px);
+    transform: translateY(8px);
+  }
+  50% {
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);
+  }
+  100% {
+    -webkit-transform: translateY(8px);
+    transform: translateY(8px);
+  }
+}
+@keyframes hvr-hang {
+  0% {
+    -webkit-transform: translateY(8px);
+    transform: translateY(8px);
+  }
+  50% {
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);
+  }
+  100% {
+    -webkit-transform: translateY(8px);
+    transform: translateY(8px);
+  }
+}
+@-webkit-keyframes hvr-hang-sink {
+  100% {
+    -webkit-transform: translateY(8px);
+    transform: translateY(8px);
+  }
+}
+@keyframes hvr-hang-sink {
+  100% {
+    -webkit-transform: translateY(8px);
+    transform: translateY(8px);
+  }
 }

@@ -1,4 +1,4 @@
-import { db } from '../lib/firebase';
+import { db } from '../../lib/firebase';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
@@ -143,8 +143,8 @@ function ItemList({ token }) {
       await deleteDoc(docRef);
       setDocs(docs.filter((item) => item.id !== id));
     }
-  }
-  
+  };
+
   const itemStatus = (lastPurchasedDate, previousEstimate, inactiveItem) => {
     //assigns style based on purchase urgency
     if (lastPurchasedDate !== null && previousEstimate !== 0 && inactiveItem) {
