@@ -76,39 +76,33 @@ const AddItemForm = ({ token }) => {
       <p>How soon will you buy this again?</p>
       <div className="radio-buying-interval">
         <fieldset>
-          <label htmlFor="soon">
-            Soon
-            <input
-              checked={purchaseInterval === '7'}
-              onChange={handleRadioChange}
-              type="radio"
-              id="soon"
-              name="purchaseInterval"
-              value="7"
-            />
-          </label>
-          <label htmlFor="kind_of_soon">
-            Kind of Soon
-            <input
-              checked={purchaseInterval === '14'}
-              onChange={handleRadioChange}
-              type="radio"
-              id="kind_of_soon"
-              name="purchaseInterval"
-              value="14"
-            />
-          </label>
-          <label htmlFor="not_soon">
-            Not Soon
-            <input
-              checked={purchaseInterval === '30'}
-              onChange={handleRadioChange}
-              type="radio"
-              id="not_soon"
-              name="purchaseInterval"
-              value="30"
-            />
-          </label>
+          <input
+            checked={purchaseInterval === '7'}
+            onChange={handleRadioChange}
+            type="radio"
+            id="soon"
+            name="purchaseInterval"
+            value="7"
+          />
+          <label htmlFor="soon">Soon</label>
+          <input
+            checked={purchaseInterval === '14'}
+            onChange={handleRadioChange}
+            type="radio"
+            id="kind_of_soon"
+            name="purchaseInterval"
+            value="14"
+          />
+          <label htmlFor="kind_of_soon">Kind of Soon</label>
+          <input
+            checked={purchaseInterval === '30'}
+            onChange={handleRadioChange}
+            type="radio"
+            id="not_soon"
+            name="purchaseInterval"
+            value="30"
+          />
+          <label htmlFor="not_soon">Not Soon</label>
         </fieldset>
       </div>
 
