@@ -1,0 +1,9 @@
+body {
+  background-color: aqua;
+}
+
+.add-item-border {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 20px;
+}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { db } from '../../lib/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { getDocs, query, where } from 'firebase/firestore';
+import './AddItemForm.css';
 
 async function addToDb(item_name, purchase_interval, user_token) {
   try {
@@ -73,41 +74,44 @@ const AddItemForm = ({ token }) => {
         />
       </label>
       <p>How soon will you buy this again?</p>
-      <fieldset>
-        <label>
-          Soon
-          <input
-            checked={purchaseInterval === '7'}
-            onChange={handleRadioChange}
-            type="radio"
-            id="soon"
-            name="purchaseInterval"
-            value="7"
-          />
-        </label>
-        <label>
-          Kind of Soon
-          <input
-            checked={purchaseInterval === '14'}
-            onChange={handleRadioChange}
-            type="radio"
-            id="kind_of_soon"
-            name="purchaseInterval"
-            value="14"
-          />
-        </label>
-        <label>
-          Not Soon
-          <input
-            checked={purchaseInterval === '30'}
-            onChange={handleRadioChange}
-            type="radio"
-            id="not_soon"
-            name="purchaseInterval"
-            value="30"
-          />
-        </label>
-      </fieldset>
+      <div className="radio-buying-interval">
+        <fieldset>
+          <label htmlFor="soon">
+            Soon
+            <input
+              checked={purchaseInterval === '7'}
+              onChange={handleRadioChange}
+              type="radio"
+              id="soon"
+              name="purchaseInterval"
+              value="7"
+            />
+          </label>
+          <label htmlFor="kind_of_soon">
+            Kind of Soon
+            <input
+              checked={purchaseInterval === '14'}
+              onChange={handleRadioChange}
+              type="radio"
+              id="kind_of_soon"
+              name="purchaseInterval"
+              value="14"
+            />
+          </label>
+          <label htmlFor="not_soon">
+            Not Soon
+            <input
+              checked={purchaseInterval === '30'}
+              onChange={handleRadioChange}
+              type="radio"
+              id="not_soon"
+              name="purchaseInterval"
+              value="30"
+            />
+          </label>
+        </fieldset>
+      </div>
+
       <button type="submit">Add Item</button>
     </form>
   );
