@@ -7,6 +7,7 @@ import ItemList from './pages/ItemList';
 import AddItem from './pages/AddItem';
 import { db } from './lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import Navbar from './components/Navigation/navbar';
 
 function App() {
   const [token, setToken] = useState('');
@@ -73,8 +74,7 @@ function App() {
       <div>
         {token ? (
           <>
-            <button onClick={deleteStorage}>logout</button>
-            <NavLinks />
+            <Navbar deleteStorage={deleteStorage} />
           </>
         ) : (
           <>
