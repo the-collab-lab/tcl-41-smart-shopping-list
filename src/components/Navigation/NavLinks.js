@@ -1,14 +1,9 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 function NavLinks() {
-  const location = useLocation();
-  const isCurrentURL = (url: string) => {
-    return location.pathname.toLowerCase() === url.toLowerCase();
-  };
   return (
-    // <nav style={{ position: 'fixed', bottom: 0 }}>
     <nav>
       <StyleNavLink
         to="/item-list"
