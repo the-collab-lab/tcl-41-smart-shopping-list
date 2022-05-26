@@ -12,12 +12,16 @@ export default function Navbar({ deleteStorage }) {
 
 const Nav = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-around;
-  background-color: pink;
+  background-color: #152b51;
+  height: 10vh;
 `;
 
 const LogoutButton = styled.button`
-  display: flex;
-  width: auto;
-  height: 26px;
+  border-radius: 50px;
+  padding: 5px 10px;
+  background-color: lightblue;
+  font-weight: bold;
+  color: #152b51;
 `;

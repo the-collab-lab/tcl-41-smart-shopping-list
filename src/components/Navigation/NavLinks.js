@@ -1,36 +1,54 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 function NavLinks() {
+  const location = useLocation();
+  const isCurrentURL = (url: string) => {
+    return location.pathname.toLowerCase() === url.toLowerCase();
+  };
   return (
     // <nav style={{ position: 'fixed', bottom: 0 }}>
     <nav>
-      <NavLink
+      <StyleNavLink
         to="/item-list"
         style={({ isActive }) =>
           isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
         }
       >
-        <NavButton>List Of Items</NavButton>
-      </NavLink>
-      <NavLink
+        List
+      </StyleNavLink>
+
+      <StyleNavLink
         to="/add-item"
         style={({ isActive }) =>
           isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
         }
       >
-        <NavButton>Add An Item</NavButton>
-      </NavLink>
+        Add Item
+      </StyleNavLink>
+
+      <StyleNavLink
+        to="/aboutus"
+        style={({ isActive }) =>
+          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+        }
+      >
+        About Us
+      </StyleNavLink>
     </nav>
   );
 }
 
 export default NavLinks;
 
-const NavButton = styled.div`
-  display: inline-block;
+const StyleNavLink = styled(NavLink)`
+  color: #fff;
+  text-decoration: none;
   padding: 12px;
-  margin: 12px;
-  background-color: #fffeee;
+  &:hover {
+    background-color: lightblue;
+    color: #152b51;
+    height: 10vh;
+  }
 `;
