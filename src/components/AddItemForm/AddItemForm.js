@@ -3,6 +3,7 @@ import { db } from '../../lib/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { getDocs, query, where } from 'firebase/firestore';
 import './AddItemForm.css';
+import styled from 'styled-components';
 
 async function addToDb(item_name, purchase_interval, user_token) {
   try {
@@ -64,18 +65,21 @@ const AddItemForm = ({ token }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Item Name:
+      <div className="inputDiv">
+        <label htmlFor="itemName" className="itemNameLabel">
+          Item Name:
+        </label>
         <input
+          className="itemInput"
           type="text"
           value={itemName}
           onChange={handleItemNameChange}
           required
         />
-      </label>
-      <p>How soon will you buy this again?</p>
+      </div>
+      <p className="subHead">How soon will you buy this again?</p>
       <div className="radio-buying-interval">
-        <fieldset>
+        <fieldset className="fieldset">
           <input
             checked={purchaseInterval === '7'}
             onChange={handleRadioChange}
@@ -106,8 +110,18 @@ const AddItemForm = ({ token }) => {
         </fieldset>
       </div>
 
-      <button type="submit">Add Item</button>
+      <Button type="submit">+ Add Item</Button>
     </form>
   );
 };
 export default AddItemForm;
+
+const Button = styled.button`
+  border-radius: 50px;
+  padding: 6px 12px;
+  font-size: calc(8px + 2vmin);
+  text-transform: lowercase;
+  background-color: #152b51;
+  color: lightblue;
+  font-weight: bold;
+`;
