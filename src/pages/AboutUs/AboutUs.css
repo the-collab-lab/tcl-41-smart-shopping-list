@@ -56,7 +56,6 @@ select:focus {
   text-align: center;
   border: 2px solid black;
   padding: 5%;
-  /* margin: 5%; */
   background-color: lightblue;
   box-shadow: -5px 5px 0px 0px #ff6b6b80;
 }

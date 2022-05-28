@@ -24,7 +24,7 @@ function NavLinks() {
       </StyleNavLink>
 
       <StyleNavLink
-        to="/aboutus"
+        to="/about-us"
         style={({ isActive }) =>
           isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
         }
