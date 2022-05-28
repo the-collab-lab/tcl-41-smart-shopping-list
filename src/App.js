@@ -127,6 +127,7 @@ const WelcomePage = styled.div`
   border-radius: 15px;
   background-color: #c4e8ee;
   color: #152b51;
+  box-shadow: -5px 5px 0px 0px #ff6b6b80;
 `;
 
 const Header = styled.header`

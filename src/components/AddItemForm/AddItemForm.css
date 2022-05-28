@@ -29,12 +29,13 @@
 
 .radio-buying-interval input[type='radio']:focus + label {
   border: 2px dashed #444;
-  background-color: #ff6b6b;
+  background-color: #f68e8e;
 }
 
 .radio-buying-interval input[type='radio']:checked + label {
-  background-color: #ff6b6b;
+  background-color: #f68e8e;
   border-color: #6a2b2b;
+  color: #152b51;
 }
 
 .fieldset {
