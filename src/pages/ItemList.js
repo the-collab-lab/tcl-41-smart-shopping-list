@@ -11,6 +11,8 @@ import {
   where,
 } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
+import './ItemList.css';
+import { BsTrashFill } from 'react-icons/bs';
 
 const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
@@ -143,28 +145,29 @@ function ItemList({ token }) {
       await deleteDoc(docRef);
       setDocs(docs.filter((item) => item.id !== id));
     }
-  }
-  
+  };
+
   const itemStatus = (lastPurchasedDate, previousEstimate, inactiveItem) => {
     //assigns style based on purchase urgency
     if (lastPurchasedDate !== null && previousEstimate !== 0 && inactiveItem) {
       return {
-        color: 'grey',
+        color: 'lightblue',
         label: 'inactive item',
       };
     } else if (previousEstimate >= 30) {
       return {
-        color: 'red',
+        color: '#f9bcbc', //not soon
         label: `${previousEstimate} days expected until purchase needed`,
       };
     } else if (previousEstimate > 7 && previousEstimate < 30) {
       return {
-        color: 'yellow',
+        color: '#ff6b6b', //kind of soon
         label: `${previousEstimate} days expected until purchase needed`,
       };
     } else if (previousEstimate <= 7) {
       return {
-        color: 'green',
+        color: '#ac2c2c', //soon
+        fontColor: '#fff',
         label: `${previousEstimate} days expected until purchase needed`,
       };
     }
@@ -174,16 +177,28 @@ function ItemList({ token }) {
     <>
       {docs.length ? (
         <>
-          <h1>Your Items</h1>
-          <h2>your token: {token}</h2>
-          <input
-            name="search list"
-            type="text"
-            value={searchInput}
-            onChange={handleSearchInputChange}
-            placeholder="search for an item"
-          />
-          <button onClick={() => setSearchInput(() => '')}>Reset</button>
+          <h1 style={{ fontFamily: 'Baskerville', color: '#152b51' }}>
+            Your Items
+          </h1>
+          <h2 style={{ color: '#152b51', fontSize: '14px' }}>
+            your token: {token}
+          </h2>
+          <div className="searchDiv" style={{ margin: '12px' }}>
+            <input
+              className="searchInput"
+              name="search list"
+              type="text"
+              value={searchInput}
+              onChange={handleSearchInputChange}
+              placeholder="search for an item"
+            />
+            <button
+              className="searchButton"
+              onClick={() => setSearchInput(() => '')}
+            >
+              Reset
+            </button>
+          </div>
           {list.map((doc) => {
             const wasCheckedInLast24Hours =
               now - doc.last_purchased_date < ONE_DAY;
@@ -200,26 +215,47 @@ function ItemList({ token }) {
 
             return (
               <div
-                key={doc.id}
+                className="container"
                 style={{
-                  backgroundColor: status.color,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
-                aria-label={status.label}
               >
-                <label>
-                  <input
-                    name={doc.item_name}
-                    disabled={isLoading}
-                    checked={wasCheckedInLast24Hours}
-                    id={doc.id}
-                    type="checkbox"
-                    onChange={(e) => isClicked(e)}
-                  />
-                  {doc.item_name}
-                </label>
-                <button onClick={() => handleDelete(doc.id, doc.item_name)}>
-                  Delete
-                </button>
+                <div
+                  key={doc.id}
+                  style={{
+                    backgroundColor: status.color,
+                    color: status.fontColor,
+                    fontSize: 'calc(10px + 2vmin',
+                    width: '14rem',
+                    overflowWrap: 'normal',
+                    padding: '4px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                  aria-label={status.label}
+                >
+                  <label>
+                    <input
+                      name={doc.item_name}
+                      disabled={isLoading}
+                      checked={wasCheckedInLast24Hours}
+                      id={doc.id}
+                      type="checkbox"
+                      onChange={(e) => isClicked(e)}
+                    />
+                    {doc.item_name}
+                  </label>
+                  <button
+                    aria-label="delete item"
+                    className="deleteButton"
+                    onClick={() => handleDelete(doc.id, doc.item_name)}
+                  >
+                    <BsTrashFill />
+                  </button>
+                </div>
               </div>
             );
           })}
@@ -227,7 +263,9 @@ function ItemList({ token }) {
       ) : (
         <>
           <p>Your Shopping list is currently empty.</p>
-          <NavLink to="/add-item">Add an Item</NavLink>
+          <NavLink className="addItemButton" to="/add-item">
+            Add an Item
+          </NavLink>
         </>
       )}
     </>

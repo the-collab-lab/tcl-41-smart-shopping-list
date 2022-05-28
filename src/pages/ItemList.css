@@ -1,0 +1,32 @@
+.searchInput {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  text-align: center;
+}
+
+.searchButton {
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  color: white;
+  background-color: #282c34;
+  width: 60px;
+  background-color: #152b51;
+  text-transform: lowercase;
+}
+
+.deleteButton {
+  display: flex;
+  background-color: lightblue;
+  color: #152b51;
+  text-transform: lowercase;
+  border-radius: 15px;
+  font-size: 12px;
+  padding: 6px;
+}
+
+.addItemButton {
+  background-color: #152b51;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 15px;
+}

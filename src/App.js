@@ -2,11 +2,13 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import { getToken } from '@the-collab-lab/shopping-list-utils';
 import { useState, useEffect } from 'react';
-import NavLinks from './components/Navigation/NavLinks';
 import ItemList from './pages/ItemList';
 import AddItem from './pages/AddItem';
 import { db } from './lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import Navbar from './components/Navigation/navbar';
+
+import styled from 'styled-components';
 
 function App() {
   const [token, setToken] = useState('');
@@ -73,31 +75,33 @@ function App() {
       <div>
         {token ? (
           <>
-            <button onClick={deleteStorage}>logout</button>
-            <NavLinks />
+            <Navbar deleteStorage={deleteStorage} />
           </>
         ) : (
-          <>
-            <header className="header">
-              Welcome to your Smart Shopping List!
-            </header>
+          <WelcomePage>
+            <Header>Welcome to your Smart Shopping List!</Header>
+            <div className="subheader">
+              <NewListButton className="newListButton" onClick={onClick}>
+                create a new list
+              </NewListButton>
 
-            <button onClick={onClick}>create a new list</button>
-
-            <header>or join an existing list</header>
-            <form onSubmit={handleSubmit}>
-              <label>
-                token
-                <input
+              <SubHeader>or join an existing list</SubHeader>
+              <Form className="inputForm" onSubmit={handleSubmit}>
+                <Input
+                  className="input"
                   type="text"
                   value={submittedToken}
                   onChange={handleItemNameChange}
+                  placeholder="add token here"
+                  aria-label="your token"
                   required
                 />
-              </label>
-              <button type="submit">join list</button>
-            </form>
-          </>
+                <JoinButton className="joinButton" type="submit">
+                  join list
+                </JoinButton>
+              </Form>
+            </div>
+          </WelcomePage>
         )}
       </div>
 
@@ -110,3 +114,59 @@ function App() {
 }
 
 export default App;
+
+const WelcomePage = styled.div`
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  text-align: center;
+  padding: 24px;
+  border-radius: 15px;
+  background-color: #c4e8ee;
+  color: #152b51;
+  box-shadow: -5px 5px 0px 0px #ff6b6b80;
+`;
+
+const Header = styled.header`
+  font-size: calc(14px + 2vmin);
+  font-family: Baskerville;
+  font-weight: bold;
+`;
+
+const NewListButton = styled.button`
+  margin: 12px;
+  border-radius: 50px;
+  background-color: #152b51;
+  color: #fff;
+  padding: 4px 8px;
+`;
+
+const SubHeader = styled.header`
+  font-size: calc(8px + 2vmin);
+  margin-bottom: 8px;
+`;
+
+const Input = styled.input`
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  text-align: center;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const JoinButton = styled.button`
+  padding: 0.4em 0;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  color: white;
+  background-color: #282c34;
+  width: 60px;
+  background-color: #152b51;
+`;
