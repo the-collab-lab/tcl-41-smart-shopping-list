@@ -17,12 +17,19 @@ export default function AboutUs() {
         <h3>Philadelphia, PA</h3>
         <h4>Code Superpower: Innovative Thinking </h4>
         <section className="icon-container">
-          <a href="https://github.com/jmc617" className="icon">
+          <a
+            href="https://github.com/jmc617"
+            className="icon"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img src={gitcat} alt="github" />
           </a>
           <a
             href="https://www.linkedin.com/in/jessica-clay-09/"
             className="icon"
+            target="_blank"
+            rel="noreferrer noopener"
           >
             <img src={li} alt="linkedin" />
           </a>
@@ -36,10 +43,20 @@ export default function AboutUs() {
         <h3>Brooklyn, NY</h3>
         <h4>Code Superpower: Adaptability </h4>
         <section className="icon-container">
-          <a href="https://github.com/honzlavender" className="icon">
+          <a
+            href="https://github.com/honzlavender"
+            className="icon"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img src={gitcat} alt="Github" />
           </a>
-          <a href="https://www.linkedin.com/in/honz/" className="icon">
+          <a
+            href="https://www.linkedin.com/in/honz/"
+            className="icon"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img src={li} alt="Linkedin" />
           </a>
         </section>
@@ -52,10 +69,20 @@ export default function AboutUs() {
         <h3>Atlanta, GA</h3>
         <h4>Code Superpower: Patience & Curiousity </h4>
         <section className="icon-container">
-          <a href="https://github.com/colefortner" className="icon">
+          <a
+            href="https://github.com/colefortner"
+            className="icon"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img src={gitcat} alt="Github" />
           </a>
-          <a href="https://www.linkedin.com/in/colefortner1/" className="icon">
+          <a
+            href="https://www.linkedin.com/in/colefortner1/"
+            className="icon"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img src={li} alt="Linkedin" />
           </a>
         </section>
@@ -69,12 +96,19 @@ export default function AboutUs() {
         <h3>DFW Metroplex, TX</h3>
         <h4>Code Superpower: Experimentation </h4>
         <section className="icon-container">
-          <a href="https://github.com/HonduranCoder" className="icon">
+          <a
+            href="https://github.com/HonduranCoder"
+            className="icon"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <img src={gitcat} alt="Github" />
           </a>
           <a
             href="https://www.linkedin.com/in/estefani-baughman/"
             className="icon"
+            target="_blank"
+            rel="noreferrer noopener"
           >
             <img src={li} alt="Linkedin" />
           </a>

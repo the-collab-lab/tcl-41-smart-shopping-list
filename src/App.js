@@ -4,6 +4,7 @@ import { getToken } from '@the-collab-lab/shopping-list-utils';
 import { useState, useEffect } from 'react';
 import ItemList from './pages/ItemList';
 import AddItem from './pages/AddItem';
+import AboutUs from './pages/AboutUs/AboutUs';
 import { db } from './lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import Navbar from './components/Navigation/navbar';
@@ -108,6 +109,7 @@ function App() {
       <Routes>
         <Route path="item-list" element={<ItemList token={token} />} />
         <Route path="add-item" element={<AddItem token={token} />} />
+        <Route path="aboutus" element={<AboutUs />} />
       </Routes>
     </div>
   );
