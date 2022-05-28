@@ -48,5 +48,5 @@ const Button = styled.button`
   background-color: lightblue;
   font-weight: bold;
   color: #152b51;
-  margin: 0 12px;
+  margin-right: 10px;
 `;
