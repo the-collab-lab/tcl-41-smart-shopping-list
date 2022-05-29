@@ -109,7 +109,7 @@ function App() {
       <Routes>
         <Route path="item-list" element={<ItemList token={token} />} />
         <Route path="add-item" element={<AddItem token={token} />} />
-        <Route path="aboutus" element={<AboutUs />} />
+        <Route path="about-us" element={<AboutUs />} />
       </Routes>
     </div>
   );
