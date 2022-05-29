@@ -61,6 +61,8 @@ const AddItemForm = ({ token }) => {
     } else {
       addToDb(itemName, parseInt(purchaseInterval), token);
     }
+
+    setItemName('');
   };
 
   return (
