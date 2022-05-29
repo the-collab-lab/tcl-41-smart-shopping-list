@@ -40,7 +40,8 @@ export default NavLinks;
 const StyleNavLink = styled(NavLink)`
   color: #fff;
   text-decoration: none;
-  padding: 12px;
+  font-size: calc(8px + 2vmin);
+  padding: 10px;
   &:hover {
     background-color: lightblue;
     color: #152b51;
