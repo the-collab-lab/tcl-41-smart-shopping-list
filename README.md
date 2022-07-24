@@ -41,7 +41,7 @@ npm start
 
 Contributors names and contact info
 
-* Estefani Baughman: | [Github](https://github.com/HonduranCoder) | [Linkedin](https://www.linkedin.com/in/estefani-baughman/)
+* Estefani Baughman: | [Github](https://github.com/HonduranCoder) | [Linkedin](https://www.linkedin.com/in/stef-baughman/)
 * Jessica Clay: | [Github](https://github.com/jmc617) | [Linkedin](https://www.linkedin.com/in/jessica-clay-09/)
 * Cole Fortner: | [Github](https://github.com/colefortner) | [Linkedin](https://www.linkedin.com/in/colefortner1/)
 * Honz Williams: | [Github](https://github.com/honzlavender) | [Linkedin](https://www.linkedin.com/in/honz/)
