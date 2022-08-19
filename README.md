@@ -1,6 +1,6 @@
 # TCL-41: Smart Shopping List
 
-Check out our [Deployed App](https://tcl-41-smart-shopping-list.web.app/) ! We're very proud 🥲 
+Check out our [Deployed App](https://smart-shopping-list-a86dc.web.app/) ! We're very proud 🥲 
 
 
 <img src="https://user-images.githubusercontent.com/88463344/171303421-ffaf4948-dc4c-411b-b95b-4ef76db329e2.jpeg" width="200"  /> <img src="https://user-images.githubusercontent.com/88463344/171303418-5b05ff3e-7f4d-40a6-ab6c-72eccbec582c.jpeg" width="200" /> 
