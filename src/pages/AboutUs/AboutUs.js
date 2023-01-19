@@ -105,7 +105,7 @@ export default function AboutUs() {
             <img src={gitcat} alt="Github" />
           </a>
           <a
-            href="https://www.linkedin.com/in/estefani-baughman/"
+            href="https://www.linkedin.com/in/stef-baughman/"
             className="icon"
             target="_blank"
             rel="noreferrer noopener"
