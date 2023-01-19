@@ -93,7 +93,7 @@ export default function AboutUs() {
         <h1>Estefani Baughman</h1>
         <img src={honduras} alt="mia" className="picS" />
 
-        <h3>DFW Metroplex, TX</h3>
+        <h3>Portland, OR Metroplex</h3>
         <h4>Code Superpower: Experimentation </h4>
         <section className="icon-container">
           <a
