@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
-import { getToken } from '@the-collab-lab/shopping-list-utils';
+import { ArchivalNoticeModal } from '@the-collab-lab/shopping-list-utils';
 import { useState, useEffect } from 'react';
 import ItemList from './pages/ItemList';
 import AddItem from './pages/AddItem';
@@ -27,9 +27,10 @@ function App() {
   }, [token]);
 
   const onClick = () => {
-    localStorage.setItem('shoppingListToken', JSON.stringify(getToken()));
-    setToken(JSON.parse(localStorage.shoppingListToken));
-    navigate('/item-list');
+    // localStorage.setItem('shoppingListToken', JSON.stringify(getToken()));
+    // setToken(JSON.parse(localStorage.shoppingListToken));
+    // navigate('/item-list');
+    console.log('Creating new lists is no longer supported');
   };
 
   const deleteStorage = () => {
@@ -51,9 +52,10 @@ function App() {
         querySnapshot.forEach((doc) =>
           snapshotDocs.push({ ...doc.data(), id: doc.id }),
         );
-        if (submittedToken && !snapshotDocs.length) {
-          alert('token does not exist');
-        } else if (submittedToken && snapshotDocs.length) {
+        // if (submittedToken && !snapshotDocs.length) {
+        //   alert('token does not exist');
+        // } else
+        if (submittedToken && snapshotDocs.length) {
           const json = JSON.stringify(submittedToken);
           localStorage.setItem('shoppingListToken', json);
           setToken(true);
@@ -102,6 +104,7 @@ function App() {
                 </JoinButton>
               </Form>
             </div>
+            <ArchivalNoticeModal />
           </WelcomePage>
         )}
       </div>
